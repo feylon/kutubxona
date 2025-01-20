@@ -26,7 +26,9 @@ import Addbook from "./Book/AddBook.js";
 import getbook from "./Book/getBooksWithPagination.js";
 import Editbook from "./Book/EditBook.js";
 import deleteBook from "./book/DeleteBook.js";
-import pdfload from "./book/UploadPdf.js"
+import pdfload from "./book/UploadPdf.js";
+import UploadPics from "./Book/UploadPics.js";
+import getByCategory from "./Book/getByCategory.js"
 export default [
 
     // AUTH
@@ -56,5 +58,7 @@ export default [
     {path : "/book/get", component : getbook},
     {path : "/book/Editbook", component : Editbook},
     {path : "/book/deleteBook", component : deleteBook},
-    {path : "/book/pdfload", component : pdfload}
+    {path : "/book/pdfload", component : pdfload},
+    {path : "/book/UploadPics", component : UploadPics},
+    {path : "/book/getByCategory", component : getByCategory}
 ]

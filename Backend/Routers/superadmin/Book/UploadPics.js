@@ -1,4 +1,4 @@
-// path : http://localhost:4100/api/superadmin/book/pdfload/fe397600-01a7-4021-9797-931e8052df5e
+// path : http://localhost:4100/api/superadmin/book/UploadPics/fe397600-01a7-4021-9797-931e8052df5e
 import Joi from "joi";
 import { verify } from "../../../functions/jwt_super_admin.js";
 import { Router } from "express";
@@ -11,7 +11,7 @@ const router = Router();
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/Books/");
+    cb(null, "uploads/Pictures/");
   },
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname);
@@ -20,14 +20,14 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = /pdf/;
+  const allowedTypes = /jpeg|jpg|png|webp/;;
   const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
   const mimetype = allowedTypes.test(file.mimetype);
 
   if (extname && mimetype) {
     return cb(null, true);
   } else {
-    cb(new Error("Faqat PDF bo'lsin"));
+    cb(new Error("FAQAT RASM BULSIN"));
   }
 };
 
@@ -65,7 +65,7 @@ router.post("/:id", verify, async (req, res) => {
       if (err.code === "LIMIT_FILE_SIZE") {
         return res.status(400).send({ error: "Max size 4 MB" });
       }
-      if (err.message === "Faqat PDF bo'lsin") {
+      if (err.message === "FAQAT RASM BULSIN") {
         return res.status(400).send({ error: err.message });
       }
       console.log(err);
@@ -77,27 +77,27 @@ router.post("/:id", verify, async (req, res) => {
         return res.status(400).send({ error: "Profile photo not found" });
       }
 
-      const profilePhotoPath = `/books/${req.file.filename}`;
+      const profilePhotoPath = `/Pictures/${req.file.filename}`;
 
       const oldPhoto = await pool.query(
-        `SELECT file_url FROM book WHERE id = $1`,
+        `SELECT picture FROM book WHERE id = $1`,
         [req.params.id]
       );
       
       try {
-        if (oldPhoto.rows[0].file_url) {
-          fs.unlinkSync(path.join(`${process.cwd()}/uploads`, oldPhoto.rows[0].file_url));
+        if (oldPhoto.rows[0].picture) {
+          fs.unlinkSync(path.join(`${process.cwd()}/uploads`, oldPhoto.rows[0].picture));
         }
       } catch (error) {
         console.log("Error deleting old photo:", error);
       }
 
       await pool.query(
-        `UPDATE book SET file_url = $1 WHERE id = $2`,
+        `UPDATE book SET picture = $1 WHERE id = $2`,
         [profilePhotoPath, req.params.id]
       );
 
-      res.status(200).send({ message: "PDF updated successfully 😎😎😎" });
+      res.status(200).send({ message: "Picture updated successfully 😎😎😎" });
     } catch (error) {
       console.log(error.message);
       res.status(500).send({ error: "Server error 🤢🤢🤢🤔!" });
@@ -108,12 +108,12 @@ router.post("/:id", verify, async (req, res) => {
 export default router;
 /**
  * @swagger
- * /api/superadmin/book/pdfload/{id}:
+ * /api/superadmin/book/UploadPics/{id}:
  *   post:
  *     tags:
  *       - Super-admin-Book
- *     summary: Upload a PDF file for a book
- *     description: Allows a Super Admin to upload or update a PDF file for a specific book using its ID.
+ *     summary: Upload a picture for a book
+ *     description: Allows a Super Admin to upload or update a picture (jpeg, jpg, png, webp) for a specific book using its ID.
  *     parameters:
  *       - name: id
  *         in: path
@@ -133,10 +133,10 @@ export default router;
  *               file:
  *                 type: string
  *                 format: binary
- *                 description: The PDF file to be uploaded.
+ *                 description: The picture file to be uploaded (jpeg, jpg, png, webp).
  *     responses:
  *       200:
- *         description: PDF file uploaded successfully.
+ *         description: Picture uploaded successfully.
  *         content:
  *           application/json:
  *             schema:
@@ -144,7 +144,7 @@ export default router;
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "PDF updated successfully 😎😎😎"
+ *                   example: "Picture updated successfully 😎😎😎"
  *       400:
  *         description: Bad Request - File not provided or invalid file type/size.
  *         content:
@@ -156,7 +156,7 @@ export default router;
  *                   type: string
  *                   examples:
  *                     file_not_found: "Profile photo not found"
- *                     file_type_error: "Only .jpg and .png files are allowed"
+ *                     file_type_error: "Only .jpg, .jpeg, .png, and .webp files are allowed"
  *                     file_size_error: "Max size 4 MB"
  *       404:
  *         description: Book not found
