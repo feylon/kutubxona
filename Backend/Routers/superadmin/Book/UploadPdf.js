@@ -20,14 +20,14 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = /jpeg|jpg|png/;
+  const allowedTypes = /pdf/;
   const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
   const mimetype = allowedTypes.test(file.mimetype);
 
   if (extname && mimetype) {
     return cb(null, true);
   } else {
-    cb(new Error("Only .jpg and .png files are allowed"));
+    cb(new Error("Faqat PDF bo'lsin"));
   }
 };
 
@@ -59,7 +59,7 @@ router.post("/:id", verify, async (req, res) => {
       if (err.code === "LIMIT_FILE_SIZE") {
         return res.status(400).send({ error: "Max size 4 MB" });
       }
-      if (err.message === "Only .jpg and .png files are allowed") {
+      if (err.message === "Faqat PDF bo'lsin") {
         return res.status(400).send({ error: err.message });
       }
       console.log(err);
@@ -91,7 +91,7 @@ router.post("/:id", verify, async (req, res) => {
         [profilePhotoPath, req.params.id]
       );
 
-      res.status(200).send({ message: "Photo updated successfully 😎😎😎" });
+      res.status(200).send({ message: "PDF updated successfully 😎😎😎" });
     } catch (error) {
       console.log(error.message);
       res.status(500).send({ error: "Server error 🤢🤢🤢🤔!" });
@@ -138,7 +138,7 @@ export default router;
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Photo updated successfully 😎😎😎"
+ *                   example: "PDF updated successfully 😎😎😎"
  *       400:
  *         description: Bad Request - File not provided or invalid file type/size.
  *         content:
