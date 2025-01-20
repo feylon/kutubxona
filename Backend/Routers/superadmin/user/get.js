@@ -1,4 +1,4 @@
-// URL http://localhost:4100/api/superadmin/users/getusers SUPER_ADMIN_USERS
+// URL http://localhost:4100/api/superadmin/users/getusers SUPER_ADMIN_USERS 
 import { verify } from "../../../functions/jwt_super_admin.js";
 import pool from "../../../functions/database.js";
 import { Router } from "express";
