@@ -12,7 +12,14 @@ import getadmin from "./Admin/getAdmin.js"
 
 // Users
 import getUser from "./user/get.js";
-import changeStatususer from "./user/changeStatus.js"
+import changeStatususer from "./user/changeStatus.js";
+
+// BookCategory
+
+import AddBookCategory from "./BookCategory/AddBookCategory.js";
+import EditBookCategory from "./BookCategory/EditBookCategory.js";
+import GetAllBookCategories from "./BookCategory/GetAllBookCategories.js"
+import GetByBookCategories from "./BookCategory/GetByBookCategories.js"
 export default [
 
     // AUTH
@@ -29,7 +36,13 @@ export default [
     // Users
 
     {path : "/users/getusers", component : getUser},
-    {path : "/users/changestatus", component : changeStatususer}
+    {path : "/users/changestatus", component : changeStatususer},
+
+    // BookCategory
+    {path : "/BookCategory/AddBookCategory", component : AddBookCategory},
+    {path : "/BookCategory/EditBookCategory", component : EditBookCategory},
+    {path : "/BookCategory/GetAllBookCategories", component : GetAllBookCategories},
+    {path : "/BookCategory/GetByBookCategories", component : GetByBookCategories}
 
 
 ]

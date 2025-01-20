@@ -35,3 +35,9 @@ CREATE TABLE jwt_tokens (
 
 insert into super_admin (fullname, username, password) values 
 ('feylon1409', 'jamshid1409', '$2b$10$Q2YXQMGKDDl7I4NFbGNuje54bxtKCFX58p6rCM56nyiySLuTw7ZcO'); --SALOM
+
+------------------------------------------------------------------------------------------------
+Create table BookCategory(
+id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+name varchar(500) unique not null
+);
