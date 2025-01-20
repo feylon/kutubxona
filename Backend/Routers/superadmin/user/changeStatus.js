@@ -20,7 +20,7 @@ router.post("/:id", [verify], async (req, res) => {
   try {
     const data = await pool.query(
       `
-        Update admin set status = $1 where id = $2;
+        Update users set status = $1 where id = $2;
         `,
       [status, id]
     );

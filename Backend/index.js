@@ -54,6 +54,12 @@ import admin from "./Routers/admin/index.js";
 admin.forEach((i) => {
   app.use(`/api/admin${i.path}`, i.component);
 });
+
+// Admin
+import users from "./Routers/users/index.js";
+users.forEach((i) => {
+  app.use(`/api/users${i.path}`, i.component);
+});
 // Swagger
 const swaggerOptions = {
   swaggerDefinition: {
