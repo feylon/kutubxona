@@ -23,7 +23,9 @@ import GetByBookCategories from "./BookCategory/GetByBookCategories.js";
 
 // Book
 import Addbook from "./Book/AddBook.js";
-import getbook from "./Book/getBooksWithPagination.js"
+import getbook from "./Book/getBooksWithPagination.js";
+import Editbook from "./Book/EditBook.js";
+import deleteBook from "./book/DeleteBook.js"
 export default [
 
     // AUTH
@@ -50,5 +52,7 @@ export default [
 
     // Book
     {path : "/book/Addbook", component : Addbook},
-    {path : "/book/get", component : getbook}
+    {path : "/book/get", component : getbook},
+    {path : "/book/Editbook", component : Editbook},
+    {path : "/book/deleteBook", component : deleteBook}
 ]
