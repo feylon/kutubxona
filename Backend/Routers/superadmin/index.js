@@ -19,7 +19,11 @@ import changeStatususer from "./user/changeStatus.js";
 import AddBookCategory from "./BookCategory/AddBookCategory.js";
 import EditBookCategory from "./BookCategory/EditBookCategory.js";
 import GetAllBookCategories from "./BookCategory/GetAllBookCategories.js"
-import GetByBookCategories from "./BookCategory/GetByBookCategories.js"
+import GetByBookCategories from "./BookCategory/GetByBookCategories.js";
+
+// Book
+import Addbook from "./Book/AddBook.js";
+import getbook from "./Book/getBooksWithPagination.js"
 export default [
 
     // AUTH
@@ -42,7 +46,9 @@ export default [
     {path : "/BookCategory/AddBookCategory", component : AddBookCategory},
     {path : "/BookCategory/EditBookCategory", component : EditBookCategory},
     {path : "/BookCategory/GetAllBookCategories", component : GetAllBookCategories},
-    {path : "/BookCategory/GetByBookCategories", component : GetByBookCategories}
+    {path : "/BookCategory/GetByBookCategories", component : GetByBookCategories},
 
-
+    // Book
+    {path : "/book/Addbook", component : Addbook},
+    {path : "/book/get", component : getbook}
 ]

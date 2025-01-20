@@ -41,3 +41,18 @@ Create table BookCategory(
 id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
 name varchar(500) unique not null
 );
+------------------------------------------------------------------------------------------------
+
+CREATE TABLE book (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    name VARCHAR(500) UNIQUE,
+    status BOOLEAN DEFAULT TRUE,
+    price NUMERIC(6,2),
+    amount INTEGER,
+    category UUID,
+    FOREIGN KEY (category) REFERENCES bookcategory(id),
+	file_url varchar(500),
+	picture varchar(500),
+	check(price >= 0),
+	check(amount >= 0)
+);
