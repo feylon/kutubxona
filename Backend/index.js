@@ -29,7 +29,7 @@ schedule.scheduleJob("0 * * * *", async () => {
 });
 const app = express();
 app.use(cors());
-app.use(express.static("./static"));
+app.use(express.static("./uploads"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use((err, req, res, next) => {
