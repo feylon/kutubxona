@@ -1,8 +1,28 @@
 import { createApp } from 'vue'
-import './style.css'
+import './style.css';
+import naive from "naive-ui";
+import router from '../Pages';
 import App from './App.vue'
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+// * Developer settings
+window.url  = 'http://localhost:4100/api';
+window.fetchSuperAdmin = async function (url, method, body, router) {
+    const options = {
+        method: method, // HTTP method
+        headers: {
+          "Content-Type": "application/json", 
+        },
+        body: JSON.stringify(body), 
+      }    
+    const response = await fetch(`${window.url}${url}`, options);
+    if (response.status === 403) {
+      router.push("/admin/login");
+      return;
+    }
+    return response;
+  }
+//  Developer settings
 
 // Import all icons
 import * as solidIcons from "@fortawesome/free-solid-svg-icons";
@@ -24,5 +44,7 @@ const brandIconValues = Object.values(brandIcons).filter(
 library.add(...solidIconValues, ...regularIconValues, ...brandIconValues);
 
 const app = createApp(App);
-app.component("font-awesome-icon", FontAwesomeIcon);
+app.use(naive);
+app.component("fonta", FontAwesomeIcon);
+app.use(router)
 app.mount('#app')

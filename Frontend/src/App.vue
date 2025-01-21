@@ -1,5 +1,19 @@
 <template>
-  <h1 class="text-3xl font-bold underline">
-    Hello world! <font-awesome-icon :icon="['fa-regular', 'fa-heart']"></font-awesome-icon>
-  </h1>
+  <n-modal-provider>
+    <n-config-provider>
+      <n-dialog-provider>
+        <n-message-provider>
+          <div class="h-min-[100vh]">
+            <RouterView></RouterView>
+
+          </div>
+
+        </n-message-provider>
+      </n-dialog-provider>
+    </n-config-provider>
+  </n-modal-provider>
 </template>
+
+<script setup>
+
+</script>
