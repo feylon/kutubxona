@@ -28,7 +28,11 @@ schedule.scheduleJob("0 * * * *", async () => {
   }
 });
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', "PATCH"], 
+  allowedHeaders: ['Content-Type', 'Authorization'], 
+}));
 app.use(express.static("./uploads"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

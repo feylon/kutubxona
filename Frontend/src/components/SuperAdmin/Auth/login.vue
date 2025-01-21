@@ -57,12 +57,12 @@ const loginfunc = async () => {
         }
         if (data.status === 201) {
             data = await data.json();
-            console.log(data)
             const { token } = data;
             localStorage.setItem("token", token);
-            message.error("Parol yoki login xato");
+            message.success("Siz tizimga kirdingiz");
             login.value = "";
             password.value = "";
+            router.push("/superadmin/")
             return null;
 
         }

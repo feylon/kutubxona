@@ -1,27 +1,45 @@
-import { createApp } from 'vue'
-import './style.css';
+import { createApp } from "vue";
+import "./style.css";
 import naive from "naive-ui";
-import router from '../Pages';
-import App from './App.vue'
+import router from "../Pages";
+import App from "./App.vue";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 // * Developer settings
-window.url  = 'http://localhost:4100/api';
+window.url = "http://localhost:4100/api";
 window.fetchSuperAdmin = async function (url, method, body, router) {
-    const options = {
-        method: method, // HTTP method
-        headers: {
-          "Content-Type": "application/json", 
-        },
-        body: JSON.stringify(body), 
-      }    
-    const response = await fetch(`${window.url}${url}`, options);
-    if (response.status === 403) {
-      router.push("/admin/login");
-      return;
-    }
-    return response;
+  let options;
+  if (body) {
+     options = {
+      method: method, // HTTP method
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(body),
+    };
+  } else {
+    options = {
+      method: method, // HTTP method
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      
+    };
+  };
+  console.log(options);
+  const response = await fetch(`${window.url}${url}`, options);
+  if (response.status === 401) {
+    router.push("/superadmin/login");
+    return;
   }
+  if (response.status === 403) {
+    router.push("/superadmin/login");
+    return;
+  }
+  return response;
+};
 //  Developer settings
 
 // Import all icons
@@ -46,5 +64,5 @@ library.add(...solidIconValues, ...regularIconValues, ...brandIconValues);
 const app = createApp(App);
 app.use(naive);
 app.component("fonta", FontAwesomeIcon);
-app.use(router)
-app.mount('#app')
+app.use(router);
+app.mount("#app");

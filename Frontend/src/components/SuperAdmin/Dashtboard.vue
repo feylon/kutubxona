@@ -1,0 +1,86 @@
+<template>
+    <div class="min-h-screen overflow-y-hidden bg-gray-300"> 
+        <div class="w-full h-[50px] text-white justify-between bg-[#001428] flex items-center">
+            <div class="text-center w-[300px]">
+                <fonta class="text-[34px]" :icon="['fas', 'book-open-reader']"/>
+            </div>
+            <div class="flex bg-[#001428] pe-3 hover:bg-[#0e243a] ps-2 cursor-pointer h-full items-center  gap-3">
+            <img src="../../assets/user.png" class="w-[40px]" alt="">
+                <div class="flex text-white flex-col">
+<span class="text-[13px]">Ergashev Jamshid</span>
+<span class="text-[10px] text-center">Admin</span>
+                </div>
+        </div>
+        </div>
+
+        <n-space vertical>
+    
+    <n-layout has-sider class="h-full shadow-[#c0c3c9] text-white min-h-full">
+          <n-layout-sider bordered collapse-mode="width" :collapsed-width="64" :width="300" :collapsed="collapsed"
+            show-trigger @collapse="collapsed = true" @expand="collapsed = false"
+            class="h-full bg-slate-900 shadow-[#c0c3c9] text-white min-h-full">
+        
+            <n-menu :inverted="true" class="h-[calc(100vh-50px)] text-red-500 min-h-full" :options="menuOptions"
+              @update:value="handleUpdateValue" />
+
+          </n-layout-sider>
+          <n-layout class="overflow-auto bg-gray-300 p-3 h-[calc(100vh-50px)]">
+            <span>
+              <router-view >
+  
+</router-view>
+</span>
+
+          </n-layout></n-layout>
+  </n-space>
+    </div>
+
+</template>
+
+<script setup>
+import {ref, onMounted, watch, h} from "vue";
+import {RouterLink, useRouter} from "vue-router"
+import {useMessage} from "naive-ui"
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+const message = useMessage();
+const collapsed = ref(eval(localStorage.collapsedAdmin == null   ?  true : localStorage.getItem("collapsedAdmin")));
+let bool =  Boolean(localStorage.collapsedAdmin == null   ?  true : localStorage.getItem("collapsedAdmin"));
+const router = useRouter();
+watch(collapsed, (newval, oldval)=>{
+  console.log(newval);
+  localStorage.setItem("collapsedAdmin", newval)
+});
+const menuOptions = [
+  {
+    label: () => h(
+      RouterLink,
+      {
+        to: "/superadmin/admin"
+      },
+      { default: () => "Adminlar" }
+    ),
+    key: "go-back-home",
+    icon : () => h(FontAwesomeIcon, { icon: ['fas', 'user-secret'] })
+  },
+ 
+];
+let handleUpdateValue= function(key, item) {
+        console.log(`[onUpdate:value]: ${JSON.stringify(key)}`);
+        console.log(`[onUpdate:value]: ${JSON.stringify(item)}`);
+      };
+const callBackend = async ()=>{
+    try {
+        // let data = await fetchSuperAdmin("/superadmin/profile", "GET", null, router);
+        // console.log(data)
+    } catch (error) {
+        console.log(error)
+    }
+}      
+onMounted(async()=>{
+   await callBackend();
+})
+</script>
+
+<style lang="scss" scoped>
+
+</style>
