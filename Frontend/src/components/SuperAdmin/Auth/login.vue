@@ -55,6 +55,24 @@ const loginfunc = async () => {
             password.value = ""
             return null;
         }
+        if (data.status == 400) {
+            data = await data.json();
+            console.log(data)
+            disabled.value = false;
+            message.error("Parol yoki login xato");
+            login.value = "";
+            password.value = ""
+            return null;
+        }
+        if (data.status == 401) {
+            data = await data.json();
+            console.log(data)
+            disabled.value = false;
+            message.error("Parol yoki login xato");
+            login.value = "";
+            password.value = ""
+            return null;
+        }
         if (data.status === 201) {
             data = await data.json();
             const { token } = data;
