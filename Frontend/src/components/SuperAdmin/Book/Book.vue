@@ -147,29 +147,38 @@ function createColumns({ play }) {
             }
         },
         {
-            title: "Tahrirlash",
-            key: "actions",
-            render(row) {
-                const price = JSON.stringify(row, null, 2);
+    title: "Tahrirlash",
+    key: "actions",
+    render(row) {
+        const price = JSON.stringify(row, null, 2);
 
+        return h(
+            NButton,
+            {   type: "success",
+                strong: true,
+                tertiary: true,
+                size: "small",
+                onClick: () => {
+                    senddata.value = row;
 
-                return h(
-                    NButton,
-                    {
-                        strong: true,
-                        tertiary: true,
-                        size: "small",
-                        onClick: () => {
-                            senddata.value = (row);
-                            
-                            superadmin.bookEdit = true;
-                            showModal.value = true;
-                        }
-                    },
-                    { default: "Tahrirlash" }
-                );
+                    superadmin.bookEdit = true;
+                    showModal.value = true;
+                }
+            },
+            {
+                default: () =>
+                    h("div", { style: "display: flex; align-items: center;" }, [
+                        h("fonta", {
+                            class: "fas fa-pen", // FontAwesome "pen" icon class
+                            style: "margin-right: 5px;" // Add some spacing
+                        }),
+                        ""
+                    ])
             }
-        }
+        );
+    }
+}
+
     ];
 };
 watch(myOption,async()=> await callBackend());
