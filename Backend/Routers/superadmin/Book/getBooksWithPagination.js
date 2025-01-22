@@ -31,7 +31,7 @@ router.get("/", verify, async (req, res) => {
     const booksQuery = await pool.query(
       `
       SELECT 
-        book.id AS book_id,
+        book.id AS key,
         book.name AS book_name,
         book.status AS book_status,
         book.price AS book_price,

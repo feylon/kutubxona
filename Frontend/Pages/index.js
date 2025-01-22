@@ -11,8 +11,9 @@ const router = createRouter({
                 {path : "/superadmin/admin", component : ()=>import("../src/components/SuperAdmin/Admin/CAdmin.vue.vue")},
                 {path : "/superadmin/addadmin", component : ()=>import("../src/components/SuperAdmin/Admin/addadmin.vue")},
                 {path : "/superadmin/edit/:id/:fullname/:username", component : ()=>import("../src/components/SuperAdmin/Admin/EditAdmin.vue")},
-                {path : "/superadmin/book", component : ()=>import("../src/components/SuperAdmin/Book/Book.vue")},
+                {path : "/superadmin/bookCategory", component : ()=>import("../src/components/SuperAdmin/Book/BookCategory.vue")},
                 {path : "/superadmin/addbookCategory/:id/:name", component : ()=>import("../src/components/SuperAdmin/Book/editbookCategory.vue")},
+                {path : "/superadmin/books", component : ()=>import("../src/components/SuperAdmin/Book/book.vue")},
 
 
             ]

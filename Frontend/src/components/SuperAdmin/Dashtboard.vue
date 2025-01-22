@@ -66,15 +66,25 @@ const menuOptions = [
         label: () => h(
             RouterLink,
             {
-                to: "/superadmin/book"
+                to: "/superadmin/bookCategory"
+            },
+            { default: () => "Kitob kategoriyalari" }
+        ),
+        key: "bookCategory",
+        icon: () => h(FontAwesomeIcon, { icon: ['f-solid', 'fa-book-atlas'] })
+    },
+
+    {
+        label: () => h(
+            RouterLink,
+            {
+                to: "/superadmin/books"
             },
             { default: () => "Kitoblar" }
         ),
         key: "books",
         icon: () => h(FontAwesomeIcon, { icon: ['fas', 'book'] })
     },
-
-
     {
         label: () => h(
             RouterLink,
