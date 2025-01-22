@@ -6,7 +6,7 @@ import pool from "./functions/database.js";
 import schedule from "node-schedule";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
-
+let host = '192.168.137.216'
 configDotenv();
 const checkDatabaseConnection = async () => {
   try {
@@ -29,9 +29,9 @@ schedule.scheduleJob("0 * * * *", async () => {
 });
 const app = express();
 app.use(cors({
-  origin: 'http://localhost:5173', 
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', "PATCH"], 
-  allowedHeaders: ['Content-Type', 'Authorization'], 
+  // origin: 'http://localhost:5173', 
+  // methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', "PATCH"], 
+  // allowedHeaders: ['Content-Type', 'Authorization'], 
 }));
 app.use(express.static("./uploads"));
 app.use(express.json());
@@ -102,7 +102,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 const server = http.createServer(app);
 const startServer = async () => {
   await checkDatabaseConnection();
-  server.listen(4100, () => {
+  server.listen(4100,  () => {
     console.log("Server ", server.address().port, "da ishga tushdi");
   });
 };

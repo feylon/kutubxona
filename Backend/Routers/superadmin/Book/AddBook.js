@@ -49,7 +49,7 @@ router.post("/", verify, async (req, res) => {
 export default router;
 /**
  * @swagger
- * /api/superadmin/Addbook:
+ * /api/superadmin/book/Addbook:
  *   post:
  *     tags:
  *       - Super-admin-Book

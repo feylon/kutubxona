@@ -1,5 +1,6 @@
 <template>
     <div
+    @keyup.enter = 'loginfunc'
         class="select-none min-h-screen overflow-y-hidden flex justify-center items-center bg-gradient-to-r from-cyan-500 to-blue-500 w-full">
         <div
             class="max-w-[700px] w-full rounded-[30px] h-[500px] flex flex-col md:flex-row bg-lime-50 ps-0 pb-0 p-4 pt-0">
@@ -12,18 +13,20 @@
                     <div class="w-full max-w-[300px] flex items-center gap-3">
                         <fonta class="text-xl text-[rgb(0,3,106)]" :icon="['fa-solid', 'fa-user']"></fonta>
                         <input v-model="login"
+                        @keyup.enter = 'loginfunc'
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline border-[rgb(0,3,96)]"
                             id="login" type="text" placeholder="Login">
                     </div>
                     <div class="w-full max-w-[300px] flex items-center gap-3">
                         <fonta class="text-xl text-[rgb(0,3,106)]" :icon="['fa-solid', 'fa-lock']"></fonta>
                         <input v-model="password"
+                        @keyup.enter = 'loginfunc'
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline border-[rgb(0,3,96)]"
                             id="password" type="password" placeholder="Password">
                     </div>
 
                     <div class="w-full mt-4 max-w-[300px]">
-                        <n-button :disabled="disabled" @click="loginfunc" class="w-full" color="#00036A">
+                        <n-button @keyup.enter = 'loginfunc' :disabled="disabled" @click="loginfunc" class="w-full" color="#00036A">
                             <fonta :icon="['fas', 'right-to-bracket']" />
                         </n-button>
                     </div>
@@ -45,6 +48,10 @@ const password = ref("");
 const disabled = ref(false)
 const loginfunc = async () => {
     try {
+
+        if(password.value.length == 0  || login.value.length == 0){
+            return message.info("Formani to'ldiring")
+        }
         disabled.value = true;
         let data = await fetchSuperAdmin('/superadmin/login', 'POST', { login: login.value, password: password.value }, router);
         console.log(data.status)

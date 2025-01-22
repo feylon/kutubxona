@@ -1,8 +1,12 @@
 <template>
- <div class="h-full flex items-center justify-center">
+ <div class="h-full">
+  
   <n-card title="Kitob kategoriyalari" bordered class="font-bold w-[90%] mx-auto bg-white text-[20px]">
+    <div class="flex justify-end mb-4">
+  <n-button @click="showModal = true" type="success">Kategoriya qo'shish</n-button>
 
-<div class="w-full max-h-[200px] overflow-x-auto flex flex-col">
+</div>
+<div class="w-full overflow-x-auto flex flex-col">
   <n-table :bordered="false" :single-line="false">
     <thead>
       <tr>
@@ -34,10 +38,7 @@
     </tbody>
   </n-table>
 </div>
-<div class="flex justify-end mt-4">
-  <n-button @click="showModal = true" type="success">Kategoriya qo'shish</n-button>
 
-</div>
 </n-card>
 
 
