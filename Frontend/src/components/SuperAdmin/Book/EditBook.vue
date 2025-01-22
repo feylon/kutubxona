@@ -29,7 +29,7 @@
 
 
             <div class="w-[200px] flex flex-col">
-                <n-button @click="submit()" type="success">Qo'shish</n-button>
+                <n-button @click="submit()" type="success">Yangilash</n-button>
             </div>
         </div>
     </div>
@@ -42,7 +42,6 @@ import { ref } from "vue";
 import { useMessage } from "naive-ui";
 import { Superadmin } from "../../../../Pinia"
 const superadmin = Superadmin();
-console.log(superadmin.bookEdit)
 const router = useRouter()
 const message = useMessage();
 const options = ref([]);
@@ -60,10 +59,8 @@ let backend = async () => {
     try {
         options.value = [];
         const data1 = await fetchSuperAdmin('/superadmin/BookCategory/GetAllBookCategories', "GET", null, router);
-        console.log(data1.status)
         if (data1.status == 200) {
             let datas = await data1.json();
-            console.log(datas)
             datas.forEach((i, j) => {
 
                 options.value.push({ label: i.name.charAt(0).toUpperCase() + i.name.slice(1).toLowerCase(), value: i.id })
@@ -83,7 +80,6 @@ const formData = ref({
     category: null,
     id: key
 });
-console.log(props.data);
 let validateInput = (value) => {
     const validValue = value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
     formData.value.price = validValue;
@@ -94,10 +90,8 @@ let validateInput1 = (value) => {
     formData.value.amount = validValue;
 }
 const submit = async () => {
-    console.log(formData.value);
     try {
         let res = await fetchSuperAdmin("/superadmin/book/Editbook", "PATCH", formData.value, router);
-        console.log(res.status)
         if (res.status == 200) {
             superadmin.bookEdit = false;
             message.success(`${formData.value.name} yangilandi`)
@@ -105,7 +99,7 @@ const submit = async () => {
         }
         if (res.status == 400) {
             res = await res.json();
-            
+
             return message.error(res.error);
         }
     } catch (error) {

@@ -31,7 +31,7 @@ window.fetchSuperAdmin = async function (url, method, body, router) {
       
     };
   };
-  console.log(options);
+  console.log(url, options);
   const response = await fetch(`${window.url}${url}`, options);
   if (response.status === 401) {
     router.push("/superadmin/login");

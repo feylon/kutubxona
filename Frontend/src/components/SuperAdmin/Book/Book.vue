@@ -19,7 +19,7 @@
         </div>
     </n-card>
     <n-modal v-model:show="superadmin.bookEdit" class="custom-card" preset="card" :style="bodyStyle"
-        title="Kitob qo'shish" :bordered="false" size="huge" :segmented="segmented">
+        title="Kitob yangilash" :bordered="false" size="huge" :segmented="segmented">
         <EditBook :data="senddata" :showModal="showModal" />
     </n-modal>
 </template>
