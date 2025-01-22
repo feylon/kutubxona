@@ -5,6 +5,9 @@ import router from "../Pages";
 import App from "./App.vue";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { createPinia } from 'pinia'
+
+
 // * Developer settings
 window.url = "http://localhost:4100/api";
 window.fetchSuperAdmin = async function (url, method, body, router) {
@@ -60,9 +63,10 @@ const brandIconValues = Object.values(brandIcons).filter(
 );
 
 library.add(...solidIconValues, ...regularIconValues, ...brandIconValues);
-
+const pinia = createPinia();
 const app = createApp(App);
 app.use(naive);
 app.component("fonta", FontAwesomeIcon);
 app.use(router);
+app.use(pinia)
 app.mount("#app");

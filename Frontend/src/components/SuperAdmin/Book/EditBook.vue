@@ -33,23 +33,30 @@
             </div>
         </div>
     </div>
-  </template>
-  
-  <script setup>
-  import { provide, onMounted } from "vue";
-  import { useRouter } from "vue-router";
-  import {ref} from "vue";
-  const router = useRouter()
+</template>
+
+<script setup>
+import { provide, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { ref } from "vue";
+import { useMessage } from "naive-ui";
+import { Superadmin } from "../../../../Pinia"
+const superadmin = Superadmin();
+console.log(superadmin.bookEdit)
+const router = useRouter()
+const message = useMessage();
 const options = ref([]);
-  
-  const props = defineProps({
+
+const props = defineProps({
     data: {
-      type: Object,
-      required: true,
-    },
-  });
-  
-  let backend = async () => {
+        type: Object,
+        required: true,
+    }
+});
+
+const { book_amount, book_name, book_price, book_status, category_id, category_name, key } = props.data;
+
+let backend = async () => {
     try {
         options.value = [];
         const data1 = await fetchSuperAdmin('/superadmin/BookCategory/GetAllBookCategories', "GET", null, router);
@@ -61,21 +68,22 @@ const options = ref([]);
 
                 options.value.push({ label: i.name.charAt(0).toUpperCase() + i.name.slice(1).toLowerCase(), value: i.id })
             });
-            formData.value.category = options.value[0].id;
+            formData.value.category = category_id;
         }
     } catch (error) {
         console.log(error)
     }
 };
 onMounted(async () => await backend())
-  const {book_amount, book_name, book_price, book_status, category_id, category_name, key} = props.data
 const formData = ref({
     name: book_name,
     status: book_status,
     price: book_price.toString(),
     amount: book_amount.toString(),
-    category: category_id});
-console.log(formData.value);
+    category: null,
+    id: key
+});
+console.log(props.data);
 let validateInput = (value) => {
     const validValue = value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
     formData.value.price = validValue;
@@ -85,5 +93,24 @@ let validateInput1 = (value) => {
     const validValue = value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');
     formData.value.amount = validValue;
 }
+const submit = async () => {
+    console.log(formData.value);
+    try {
+        let res = await fetchSuperAdmin("/superadmin/book/Editbook", "PATCH", formData.value, router);
+        console.log(res.status)
+        if (res.status == 200) {
+            superadmin.bookEdit = false;
+            message.success(`${formData.value.name} yangilandi`)
+            return router.go(0);
+        }
+        if (res.status == 400) {
+            res = await res.json();
+            
+            return message.error(res.error);
+        }
+    } catch (error) {
+        console.log(error)
+        message.error("Serverda muommo chiqdi")
+    }
+}
 </script>
-  

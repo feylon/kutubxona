@@ -1,7 +1,6 @@
 <template>
     <div>
         <div class="flex w-full mb-3 justify-between items-center">
-            <span class="font-bold text-[20px]">Kitoblar</span>
             <n-button type="success" @click="showModal = true">Kitob qo'shish</n-button>
 
         </div>

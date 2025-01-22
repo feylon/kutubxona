@@ -47,8 +47,8 @@ router.patch("/", verify, async (req, res) => {
       return res.status(400).send({ error: `'${name}' Allaqachon yaratilgan` });
     }
 
-    return res.status(500).send({ error: "Server Error" });
     console.log(error);
+    return res.status(500).send({ error: "Server Error" });
   }
 });
 

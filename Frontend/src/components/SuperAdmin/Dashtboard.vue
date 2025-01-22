@@ -24,7 +24,7 @@
                         @update:value="handleUpdateValue" />
 
                 </n-layout-sider>
-                <n-layout class="overflow-auto bg-gray-300 p-3 h-[calc(100vh-50px)]">
+                <n-layout class="overflow-auto scrollable-container bg-gray-300 p-3 h-[calc(100vh-50px)]">
                     <span>
                         <router-view>
 
@@ -135,4 +135,5 @@ onMounted(async () => {
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+</style>
