@@ -10,6 +10,7 @@ import { createPinia } from 'pinia'
 
 // * Developer settings
 window.url = "http://localhost:4100/api";
+window.web_url = "http://localhost:4100";
 window.fetchSuperAdmin = async function (url, method, body, router) {
   let options;
   if (body) {

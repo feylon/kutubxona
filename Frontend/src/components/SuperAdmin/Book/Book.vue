@@ -22,6 +22,17 @@
         title="Kitob yangilash" :bordered="false" size="huge" :segmented="segmented">
         <EditBook :data="senddata" :showModal="showModal" />
     </n-modal>
+
+
+    <n-modal v-model:show="superadmin.UploadPicsBook" class="custom-card" preset="card" :style="bodyStyle"
+        title="Rasm yuklash" :bordered="false" size="huge" :segmented="segmented">
+        <UploadPics :data="senddata"  />
+        </n-modal>
+        <n-modal v-model:show="showpic" class="custom-card" :style="{ width: '600px' }" :bordered="false" size="huge"
+        :segmented="{ content: 'soft', footer: 'soft' }">
+    
+    <img class="max-w-[300px] mx-auto" :src="showUrl" alt="">
+        </n-modal>
 </template>
 
 <script setup>
@@ -31,7 +42,9 @@ import AddBook from './AddBook.vue';
 import { useRouter } from 'vue-router';
 import { Superadmin } from "../../../../Pinia";
 import { NButton, NTag, useMessage } from 'naive-ui';
+import UploadPics from "./UploadPics.vue"
 const showModal = ref(false);
+
 const superadmin = Superadmin();
 const options = ref([]);
 const myOption = ref("Barchasi")
@@ -39,10 +52,10 @@ let backend = async () => {
     try {
         options.value = [];
         const data1 = await fetchSuperAdmin('/superadmin/BookCategory/GetAllBookCategories', "GET", null, router);
-        
+
         if (data1.status == 200) {
             let datas = await data1.json();
-            
+
             datas.forEach((i, j) => {
                 options.value[0] = { label: "Barchasi", value: "Barchasi" }
                 options.value.push({ label: i.name.charAt(0).toUpperCase() + i.name.slice(1).toLowerCase(), value: i.id })
@@ -62,6 +75,8 @@ const limit = ref(1);
 const totalBooks = ref(0);
 const pagination = ref(false);
 const totalPages = ref(2);
+const showpic = ref(false);
+const showUrl = ref("")
 let bodyStyle = {
     width: "600px"
 },
@@ -80,19 +95,20 @@ let callBackend = async function () {
 
         }
         let backend = await fetchSuperAdmin(url, 'GET', null, router);
-        
+
         if (backend.status == 200) {
             backend = await backend.json();
+            console.log(backend);
             currentPage.value = backend.pagination.currentPage;
             limit.value = backend.pagination.limit;
             totalBooks.value = backend.pagination.totalBooks;
             totalPages.value = backend.pagination.totalPages;
             data.value = [...backend.data];
-            if(totalPages.value == 1) currentPage.value = 1;
+            if (totalPages.value == 1) currentPage.value = 1;
             data.value.forEach((item, index) => {
                 data.value[index].number = (index + 10 * (currentPage.value - 1)) + 1;
             });
-            
+
             return null;
         }
     } catch (error) {
@@ -146,40 +162,109 @@ function createColumns({ play }) {
                 );
             }
         },
+
         {
-    title: "Tahrirlash",
-    key: "actions",
-    render(row) {
-        const price = JSON.stringify(row, null, 2);
+            title: "Tahrirlash",
+            key: "Uploads",
+            render(row) {
+                const price = JSON.stringify(row, null, 2);
 
-        return h(
-            NButton,
-            {   type: "success",
-                strong: true,
-                tertiary: true,
-                size: "small",
-                onClick: () => {
-                    senddata.value = row;
+                return h(
+                    "div",
+                    { class: "flex gap-3 w-full mx-auto" },
+                    [h(
+                        NButton,
+                        {
+                            type: "primary",
+                            strong: false,
+                            class: "flex justify-center",
+                            tertiary: true,
+                            size: "small",
+                            onClick: () => {
+                                senddata.value = row;
 
-                    superadmin.bookEdit = true;
-                    showModal.value = true;
-                }
-            },
-            {
-                default: () =>
-                    h("div", { style: "display: flex; align-items: center;" }, [
-                        h("fonta", {
-                            class: "fas fa-pen", // FontAwesome "pen" icon class
-                            style: "margin-right: 5px;" // Add some spacing
-                        }),
-                        ""
-                    ])
+                                superadmin.UploadPicsBook = true;
+                                // showModal.value = true;
+                            }
+                        },
+                        {
+                            default: () =>
+                                h("div", { style: "display: flex; align-items: center; justify-content: center;width:100%; " }, [
+                                    h("fonta", {
+                                        class: "fa-solid fa-cloud-arrow-up",
+                                        style: "margin-right: 5px;text-align:center"
+                                    }),
+                                    ""
+                                ])
+                        }
+                    ),
+                    h(
+                        NButton,
+                        {
+                            type: "success",
+                            strong: true,
+                            tertiary: true,
+                            size: "small",
+                            onClick: () => {
+                                senddata.value = row;
+
+                                superadmin.bookEdit = true;
+                                showModal.value = true;
+                            }
+                        },
+                        {
+                            default: () =>
+                                h("div", { style: "display: flex; align-items: center;" }, [
+                                    h("fonta", {
+                                        class: "fas fa-pen", 
+                                        style: "margin-right: 5px;"
+                                    }),
+                                    ""
+                                ])
+                        }
+                    ),
+                    h(
+                        NButton,
+                        {
+                            type: row.picture?"primary":"warning",
+                            strong: true,
+                            tertiary: true,
+                            size: "small",
+                            onClick: () => {
+                                if(row.picture){
+
+                                    senddata.value = row;
+                                    showUrl.value = web_url + row.picture
+                                    showpic.value = true;
+                                }else{
+                                    message.error("Rasm yuklanmagan")
+                                }
+                            }
+                        },
+                        {
+                            default: () =>
+                                h("div", { style: "display: flex; align-items: center;" }, [
+
+                                    h("fonta", {
+                                        class: row.picture ?"fa-solid fa-eye":'fa-solid fa-triangle-exclamation', 
+                                        style: "margin-right: 5px;"
+                                    }),
+                                    ""
+                                ])
+                        }
+                    )
+                    ]
+                )
             }
-        );
-    }
-}
+        }
+
 
     ];
 };
-watch(myOption,async()=> await callBackend());
+watch(myOption, async () => await callBackend());
 </script>
+<style>
+.h {
+    justify-content: center;
+}
+</style>

@@ -40,7 +40,9 @@ router.get("/", verify, async (req, res) => {
         book.price AS book_price,
         book.amount AS book_amount,
         book.category AS category_id,
-        b.name AS category_name
+        b.name AS category_name,
+		    book.file_url as file,
+		    book.picture as picture
       FROM book
       INNER JOIN bookcategory b ON b.id = book.category
       where b.id = $3
