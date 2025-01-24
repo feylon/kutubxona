@@ -8,10 +8,16 @@
             </RouterLink>
 
             <div>
-                <div ref="registr" class="flex  flex-col text-[17px] font-bold">
+                <div v-if="false" ref="registr" class="flex  flex-col text-[17px] font-bold">
 
                     <RouterLink to='/'><font-awesome-icon :icon="['fas', 'right-to-bracket']" /> Kirish</RouterLink>
                     <RouterLink to='/'><font-awesome-icon :icon="['fas', 'key']" /> Ro'yxatdan o'tish</RouterLink>
+                </div>
+
+                <div v-else ref="registr" class="flex items-center flex-col text-[17px] font-bold">
+
+                   <img src="../assets/ffa09aec412db3f54deadf1b3781de2a.png" class="w-[30px] rounded-[50%]" alt="">
+                    <span class="text-red-400 text-[13px]">Tizimdan chiqish</span>
                 </div>
             </div>
         </div>
@@ -145,10 +151,11 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
 
-                       
+
                         <div v-for="i in 3" class="rounded overflow-hidden shadow-lg flex flex-col">
-                           
-                            <div class="relative"><div href="#">
+
+                            <div class="relative">
+                                <div href="#">
                                     <img class="w-full"
                                         src="https://images.pexels.com/photos/61180/pexels-photo-61180.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500"
                                         alt="Sunset in the mountains">
@@ -165,7 +172,8 @@
                             </div>
                             <div class="px-6 py-4 mb-auto">
                                 <div href="#"
-                                    class="font-medium text-lg inline-block hover:text-blue-600 transition duration-200 ease-in-out inline-block mb-2">Simplest
+                                    class="font-medium text-lg inline-block hover:text-blue-600 transition duration-200 ease-in-out inline-block mb-2">
+                                    Simplest
                                     Salad Recipe ever</div>
                                 <p class="text-gray-500 text-sm">
                                     Lorem Ipsum is simply dummy text of the printing and typesetting industry.
@@ -179,8 +187,7 @@
                                 </span>
 
                                 <button
-                                    class="px-6 py-2 min-w-[120px] text-center text-blue-600 border border-blue-600 rounded hover:bg-blue-600 hover:text-white active:bg-indigo-500 focus:outline-none focus:ring"
-                                    >
+                                    class="px-6 py-2 min-w-[120px] text-center text-blue-600 border border-blue-600 rounded hover:bg-blue-600 hover:text-white active:bg-indigo-500 focus:outline-none focus:ring">
                                     <font-awesome-icon :icon="['fas', 'bag-shopping']" />
                                 </button>
                             </div>
@@ -188,7 +195,7 @@
 
 
 
-                       
+
 
                     </div>
 
@@ -196,12 +203,15 @@
             </div>
 
 
-            
+
 
             <!-- End BODY -->
 
-            <footer class="flex min-w-[100wh] mx-auto flex-col bg-blue-500 space-y-10 justify-center m-10">
-        
+
+        </div>
+    </div>
+    <footer class="flex h-full min-w-[100wh] mx-auto flex-col bg-blue-500 space-y-10 justify-center m-10">
+
         <nav class="flex justify-center flex-wrap gap-6 text-white font-medium">
             <div class="hover:text-gray-200 cursor-pointer">Home</div>
             <div class="hover:gray-200 cursor-pointer">About</div>
@@ -210,7 +220,7 @@
             <div class="hover:text-gray-200 cursor-pointer">Gallery</div>
             <div class="hover:text-gray-200 cursor-pointer">Contact</div>
         </nav>
-        
+
         <div class="flex justify-center space-x-5">
             <div>
                 <img src="https://img.icons8.com/fluent/30/000000/facebook-new.png" />
@@ -229,10 +239,9 @@
             </div>
         </div>
         <p class="text-center text-gray-700 font-medium">&copy; 2025 Company Ltd. All rights reservered.</p>
-        </footer>
-        </div></div>
-   
-   
+    </footer>
+
+
 </template>
 
 <script setup>
