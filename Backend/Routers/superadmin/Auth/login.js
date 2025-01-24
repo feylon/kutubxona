@@ -31,7 +31,6 @@ try {
     res.status(500).send({error : "Serverda xatolik mavjud"})
     console.log(error)
 }
-return res.send({value :checkSchema.value})
 
 
 })

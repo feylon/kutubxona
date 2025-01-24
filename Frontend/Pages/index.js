@@ -17,7 +17,11 @@ const router = createRouter({
 
 
             ]
-        }
+        },
+
+
+
+        {path:'/', component:()=>import("../src/User/lagepage.vue")}
     ]
 }) ;
 

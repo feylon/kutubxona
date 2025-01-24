@@ -47,7 +47,7 @@ router.get("/", verify, async (req, res) => {
 		    book.picture as picture
       FROM book
       INNER JOIN bookcategory b ON b.id = book.category
-      where   book.picture is not null and book.status and b.id = $3
+      where   book.picture is not null and book.status and b.id =  
       ORDER BY book.name
       LIMIT $1 OFFSET $2
       `,
