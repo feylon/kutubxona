@@ -68,6 +68,8 @@ const pinia = createPinia();
 const app = createApp(App);
 app.use(naive);
 app.component("fonta", FontAwesomeIcon);
+app.component("font-awesome-icon", FontAwesomeIcon);
+
 app.use(router);
 app.use(pinia)
 app.mount("#app");
