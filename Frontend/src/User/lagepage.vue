@@ -1,7 +1,7 @@
 <template>
-    <div class=" min-w-full bg-slate-100 min-h-screen ">
+    <div class=" min-w-full bg-slate-100 min-h-screen select-none">
         <div
-            class="relative min-w-full text-white bg-blue-400 h-[70px] sticky top-0 justify-between pe-4 flex items-center shadow-blue-200 drop-shadow-sm shadow-lg ">
+            class="relative min-w-full text-white bg-blue-400 h-[70px] sticky top-0 justify-between pe-4 flex items-center shadow-blue-400 shadow-sm drop-shadow-sm shadow-lg ">
             <RouterLink to="/" class="h-full flex items-center gap-4">
                 <fonta class="text-3xl   ms-5" :icon="['fas', 'book-open-reader']" />
                 <span class="font-bold me-5 uppercase font-sans">Kutubxona</span>
@@ -38,7 +38,8 @@
 
 
 
-            <div class="w-full rounded-md  flex justify-start h-[400px] flex-col  items-start mt-5 pt-4 bg-blue-600   ">
+            <div
+                class="w-full rounded-md  flex justify-start flex-col  items-start mt-5 p-[1px] pt-4  bg-blue-500   ">
                 <div class="w-[75%] flex mx-auto justify-between">
                     <div class="max-w-[250px] flex justify-center flex-col">
                         <span class="font-bold text-white text-center text-[40px]">
@@ -72,8 +73,34 @@
                             soni</span>
                     </div>
                 </div>
-                <div style="border-radius: 100px 0px 85px 0px;" class="min-w-full  h-full bg-white">
-                    salom
+                <div style="border-radius: 67% 25% 25% 25% / 77% 0% 0% 0%;"
+                    class="min-w-full flex items-end gap-[130px] justify-start mt-[10px] flex-col h-full bg-white">
+                    <div class="mt-[50px]">
+                        <span class="text-blue-600 font-bold text-[30px]">
+                            Bizning saytdan foydalanish bo'yicha video qo'llanma
+
+                        </span>
+
+                    </div>
+                    <div class="mt-[40px] me-[50px] flex gap-5 justify-around">
+                        <div class="">
+                            <div class="h3 text-blue-600 font-bold text-[30px] text-right">Lorem, ipsum dolor sit amet
+                                consectetur adipisicing </div>
+                            <div class="ps-[30px] mt-[55px]">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem temporibus accusantium
+                                consectetur recusandae. Commodi cum fugit vero quas nemo, in architecto magni
+                                perferendis labore aperiam, sunt aliquid similique exercitationem excepturi officia,
+                                tempora eaque! Soluta sapiente eaque modi eos non mollitia repudiandae molestias, quidem
+                                quo molestiae hic nulla, veniam vero praesentium iusto! Fuga sit eum, eos consequuntur
+                                exercitationem ad dignissimos dolorem! </div>
+                        </div>
+                        <iframe width="650" height="300"
+                            src="https://www.youtube.com/embed/YxxkSjV-sDI?si=s0T-ce1VmUQWwsJM"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                    </div>
                 </div>
             </div>
 
