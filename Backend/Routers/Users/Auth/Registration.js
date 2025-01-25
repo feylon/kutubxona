@@ -6,30 +6,64 @@ import { hash } from "../../../functions/bcrypt.js";
 import { sign } from "../../../functions/jwt_user.js";
 
 const Schema = Joi.object({
-   fullname : Joi.string().min(3).max(50).required(),
-   username: Joi.string().min(3).max(50).pattern(/^[a-zA-Z][a-zA-Z0-9_]*$/).required(),
-   password : Joi.string().min(8).max(50).required()
-})
+  fullname: Joi.string().min(3).max(50).required().messages({
+    "string.base": "To'liq ism matn bo'lishi kerak.",
+    "string.empty": "To'liq ism bo'sh bo'lishi mumkin emas.",
+    "string.min": "To'liq ism kamida 3 ta belgidan iborat bo'lishi kerak.",
+    "string.max": "To'liq ism 50 ta belgidan oshmasligi kerak.",
+    "any.required": "To'liq ism majburiy maydon.",
+  }),
+  username: Joi.string()
+    .min(3)
+    .max(50)
+    .pattern(/^[a-zA-Z][a-zA-Z0-9_]*$/)
+    .required()
+    .messages({
+      "string.pattern.base":
+        "Foydalanuvchi nomi faqat lotin harflari bilan boshlanishi kerak va faqat harflar, raqamlar yoki pastki chiziq (_) bo‘lishi mumkin.",
+      "string.empty": "Foydalanuvchi nomi bo'sh bo'lishi mumkin emas.",
+      "string.min":
+        "Foydalanuvchi nomi kamida 3 ta belgidan iborat bo'lishi kerak.",
+      "string.max": "Foydalanuvchi nomi 50 ta belgidan oshmasligi kerak.",
+      "any.required": "Foydalanuvchi nomi majburiy maydon.",
+    }),
+  password: Joi.string().min(8).max(50).required().messages({
+    "string.base": "Parol matn bo'lishi kerak.",
+    "string.empty": "Parol bo'sh bo'lishi mumkin emas.",
+    "string.min": "Parol kamida 8 ta belgidan iborat bo'lishi kerak.",
+    "string.max": "Parol 50 ta belgidan oshmasligi kerak.",
+    "any.required": "Parol majburiy maydon.",
+  }),
+});
+
 const router = Router();
-router.post("/", async (req, res)=>{
-const checkSchema = Schema.validate(req.body);
-const {error, value} = checkSchema;
-if(error) return res.status(400).send({error : error.message});
-const {fullname, username} = value;
-let {password} = value;
-password = hash(password);
-try {
-    let query = "insert into users (fullname, username, password) values ($1, $2, $3) returning id "
+router.post("/", async (req, res) => {
+  const checkSchema = Schema.validate(req.body, { abortEarly: false });
+  const { error, value } = checkSchema;
+  if (error) {
+    return res.status(400).send({
+      error: error.details.map((err) => err.message),
+    });
+  }
+  const { fullname, username } = value;
+  let { password } = value;
+  password = hash(password);
+  try {
+    let query =
+      "insert into users (fullname, username, password) values ($1, $2, $3) returning id ";
     let data = await pool.query(query, [fullname, username, password]);
     let UUID = data.rows[0].id;
     let token = await sign(UUID);
-    return res.status(201).send({token})
-} catch (error) {
-    if(error.code = '23505') return  res.status(409).send({error : `'${username}' allaqachon ro'yxatdan o'tgan`})
+    return res.status(201).send({ token });
+  } catch (error) {
+    if ((error.code = "23505"))
+      return res
+        .status(409)
+        .send({ error: `'${username}' allaqachon ro'yxatdan o'tgan` });
 
-    res.status(500).send({error : "Server Error"});
-    console.log(error)
-}
+    res.status(500).send({ error: "Server Error" });
+    console.log(error);
+  }
 });
 export default router;
 

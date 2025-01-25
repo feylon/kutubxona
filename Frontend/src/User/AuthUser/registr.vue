@@ -44,7 +44,6 @@ const password = ref("");
 const message = useMessage();
 const router = useRouter();
 const login = async () => {
-    console.log("Sign in ....");
     if (username.value.length < 3) return message.error("Foydalauvchi nomi 3 ta harfdan kam bo'lmasligi lozim");
     if (fullname.value.length < 3) return message.error("Ism familiya nomi 3 ta harfdan kam bo'lmasligi lozim");
     if (password.value.length < 3) return message.error("Ism familiya nomi 8 ta harfdan kam bo'lmasligi lozim");
@@ -57,7 +56,12 @@ const login = async () => {
             message.warning(`${username.value} foydalanuvchi allaqachon ro'yxatdan o'tgan`);
             return;
         }
-        if (res.status == 200) {
+        if (res.status == 400) {
+            res = await res.json();
+            message.error(res.error[0]);
+            return;
+        }
+        if (res.status == 201) {
             res = await res.json();
             localStorage.setItem("token", res.token);
             login.value = "";
@@ -73,5 +77,3 @@ const login = async () => {
     }
 }
 </script>
-
-<style lang="scss" scoped></style>
