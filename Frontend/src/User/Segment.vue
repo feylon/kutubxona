@@ -49,7 +49,7 @@
 
             <div class="relative">
                 <div href="#">
-                    <img class="w-full" :src="web_url1 + i.picture" alt="Sunset in the mountains">
+                    <img class="w-full object-cover" :src="web_url1 + i.picture" alt="Sunset in the mountains">
                     <div
                         class="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25">
                     </div>

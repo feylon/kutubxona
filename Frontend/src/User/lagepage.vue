@@ -15,9 +15,9 @@
                 <a href=# class="hover:text-gray-200 cursor-pointer">Contact</a>
             </nav>
             <div>
-                <div v-if="false" ref="registr" class="flex  flex-col text-[17px] font-bold">
+                <div v-if="!user.isAuth" ref="registr" class="flex  flex-col text-[17px] font-bold">
 
-                    <RouterLink to='/'><font-awesome-icon :icon="['fas', 'right-to-bracket']" /> Kirish</RouterLink>
+                    <RouterLink to='/login'><font-awesome-icon :icon="['fas', 'right-to-bracket']" /> {{ user.isAuth }} Kirish</RouterLink>
                     <RouterLink to='/'><font-awesome-icon :icon="['fas', 'key']" /> Ro'yxatdan o'tish</RouterLink>
                 </div>
 
@@ -263,12 +263,14 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
 import { ref, onMounted } from "vue";
+import { User } from '../../Pinia';
 import NumberAnimation from "vue-number-animation";
 import Segment from './Segment.vue';
 import gsap from "gsap";
 const web_url1 = window.web_url;
 const isVisible = ref(false);
 const topBooks = ref([]);
+const user = User();
 const HasCategory = ref([])
 const getHasBookCategory = async () => {
     try {
