@@ -17,13 +17,16 @@
             <div>
                 <div v-if="!user.isAuth" ref="registr" class="flex  flex-col text-[17px] font-bold">
 
-                    <RouterLink to='/login'><font-awesome-icon :icon="['fas', 'right-to-bracket']" /> {{ user.isAuth }} Kirish</RouterLink>
-                    <RouterLink to='/'><font-awesome-icon :icon="['fas', 'key']" /> Ro'yxatdan o'tish</RouterLink>
+                    <RouterLink to='/login'><font-awesome-icon :icon="['fas', 'right-to-bracket']" /> 
+                        Kirish</RouterLink>
+                    <RouterLink to='/registr'><font-awesome-icon :icon="['fas', 'key']" /> Ro'yxatdan o'tish</RouterLink>
                 </div>
 
                 <div v-else ref="registr" class="flex items-center flex-col text-[17px] font-bold">
 
                     <img src="../assets/ffa09aec412db3f54deadf1b3781de2a.png" class="w-[30px] rounded-[50%]" alt="">
+                    <span class="text-white text-[13px]">{{profile.data.fullname}}</span>
+                   
                     <span class="text-white text-[13px]">Tizimdan chiqish</span>
                 </div>
             </div>
@@ -214,7 +217,7 @@
             </div>
 
 
-            <Segment v-for="(i,j) in HasCategory" :obj="i" :key="j" />
+            <Segment v-for="(i, j) in HasCategory" :obj="i" :key="j" />
 
             <!-- End BODY -->
 
@@ -261,24 +264,25 @@
 </template>
 
 <script setup>
-import { RouterLink, RouterView } from 'vue-router';
+import { RouterLink, useRouter, RouterView } from 'vue-router';
 import { ref, onMounted } from "vue";
 import { User } from '../../Pinia';
 import NumberAnimation from "vue-number-animation";
 import Segment from './Segment.vue';
 import gsap from "gsap";
+const router = useRouter();
 const web_url1 = window.web_url;
 const isVisible = ref(false);
 const topBooks = ref([]);
 const user = User();
-const HasCategory = ref([])
+const HasCategory = ref([]);
+const profile = ref({})
 const getHasBookCategory = async () => {
     try {
         let res = await fetchUser('/book/getHasBookCategory')
         if (res.status == 200) {
             res = await res.json();
             HasCategory.value = res;
-            console.log(HasCategory.value)
         }
     } catch (error) {
         console.log(error)
@@ -292,7 +296,6 @@ const callTopBooks = async () => {
         if (res.status == 200) {
             res = await res.json();
             topBooks.value = res;
-            console.log(topBooks.value)
         }
     } catch (error) {
         console.log(error)
@@ -302,7 +305,22 @@ const callTopBooks = async () => {
 const handleScroll = () => {
     isVisible.value = window.scrollY > 300;
 };
+const getProfile = async () => {
+    try {
+     let   res = await fetchUser('/profile', 'GET', null, router);
+        if(res.status == 200){
+            res = await res.json();
+            profile.value = res;
+            user.isAuth = true;
+            return;
+        }
+        user.isAuth = false;
 
+        console.log(profile.value)
+    } catch (error) {
+       console.log(error) 
+    }
+}
 
 const registr = ref(null)
 onMounted(async () => {
@@ -310,6 +328,7 @@ onMounted(async () => {
     await getHasBookCategory();
     gsap.to(registr.value, { x: -0, duration: 2 });
     window.addEventListener("scroll", handleScroll);
+    await getProfile();
 });
 </script>
 

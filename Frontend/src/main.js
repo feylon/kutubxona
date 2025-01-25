@@ -67,14 +67,14 @@ window.fetchUser = async function (url, method, body, router) {
   };
   console.log(url, options);
   const response = await fetch(`${window.url}/users${url}`, options);
-  if (response.status === 401) {
-    router.push("/superadmin/login");
-    return;
-  }
-  if (response.status === 403) {
-    router.push("/superadmin/login");
-    return;
-  }
+  // if (response.status === 401) {
+  //   router.push("/superadmin/login");
+  //   return;
+  // }
+  // if (response.status === 403) {
+  //   router.push("/superadmin/login");
+  //   return;
+  // }
   return response;
 };
 //  Developer settings
