@@ -8,7 +8,7 @@ import { sign } from "../../../functions/jwt_user.js";
 const Schema = Joi.object({
    fullname : Joi.string().min(3).max(50).required(),
    username: Joi.string().min(3).max(50).pattern(/^[a-zA-Z][a-zA-Z0-9_]*$/).required(),
-   password : Joi.string().min(3).max(50).required()
+   password : Joi.string().min(8).max(50).required()
 })
 const router = Router();
 router.post("/", async (req, res)=>{
@@ -25,7 +25,7 @@ try {
     let token = await sign(UUID);
     return res.status(201).send({token})
 } catch (error) {
-    if(error.code = '23505') return  res.status(400).send({error : `'${username}' allaqachon ro'yxatdan o'tgan`})
+    if(error.code = '23505') return  res.status(409).send({error : `'${username}' allaqachon ro'yxatdan o'tgan`})
 
     res.status(500).send({error : "Server Error"});
     console.log(error)

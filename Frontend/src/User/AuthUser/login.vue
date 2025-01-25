@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600">
+    <div class="flex select-none items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600">
   <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-sm">
     <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Login</h2>
     <form>
@@ -16,7 +16,7 @@
       <button type="submit" class="w-full bg-blue-500 text-white font-medium py-2 rounded-lg hover:bg-blue-600 transition duration-300">Login</button>
     </form>
     <p class="text-center text-gray-600 text-sm mt-6">
-      Ro'yxatdan o'tmadingizmi ? <router-link to="/"  class="text-blue-500 hover:underline">Ro'yxatdan o'tish</router-link>
+      Ro'yxatdan o'tmadingizmi ? <router-link to="/registr"  class="text-blue-500 hover:underline">Ro'yxatdan o'tish</router-link>
     </p>
   </div>
 </div>

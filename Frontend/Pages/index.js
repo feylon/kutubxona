@@ -22,7 +22,9 @@ const router = createRouter({
 
 // For Users
         {path:'/', component:()=>import("../src/User/lagepage.vue")},
-        {path:"/login", component : ()=>import ("../src/User/AuthUser/login.vue")}
+        {path:"/login", component : ()=>import ("../src/User/AuthUser/login.vue")},
+        {path:"/registr", component : ()=>import ("../src/User/AuthUser/registr.vue")}
+
 
 
     ]
