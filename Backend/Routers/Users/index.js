@@ -4,7 +4,9 @@ import login from "./Auth/login.js"
 import logout from "./Auth/logout.js"
 import getTopBook from "./Book/getTopBook.js";
 import getBookById from "./Book/getBookById.js"
+import profile from "./Auth/profile.js"
 
+// Book
 import getBooksWithPagination from "./Book/getBooksWithPagination.js";
 import getByCategory from "./Book/getByCategory.js"
 import getHasBookCategory from "./Book/getHasBookCategory.js"
@@ -13,7 +15,7 @@ export default [
     {path : "/register", component : register},
     {path : "/login", component : login},
     {path : "/signout", component : logout},
-
+    {path : "/profile", component : profile},
 
     // BOOK
     {path : "/book/getBooksWithPagination", component : getBooksWithPagination},
