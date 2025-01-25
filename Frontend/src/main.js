@@ -44,6 +44,39 @@ window.fetchSuperAdmin = async function (url, method, body, router) {
   }
   return response;
 };
+window.fetchUser = async function (url, method, body, router) {
+  let options;
+  if (body) {
+     options = {
+      method: method, // HTTP method
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(body),
+    };
+  } else {
+    options = {
+      method: method, // HTTP method
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      
+    };
+  };
+  console.log(url, options);
+  const response = await fetch(`${window.url}/users${url}`, options);
+  if (response.status === 401) {
+    router.push("/superadmin/login");
+    return;
+  }
+  if (response.status === 403) {
+    router.push("/superadmin/login");
+    return;
+  }
+  return response;
+};
 //  Developer settings
 
 // Import all icons
