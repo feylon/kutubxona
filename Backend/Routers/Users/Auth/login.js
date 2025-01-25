@@ -22,7 +22,7 @@ router.post("/", async (req, res, next) => {
       [login]
     );
     if (data.rows.length === 0)
-      return res.status(401).send({ error: "Foydalanuvchi topilmadi" });
+      return res.status(400).send({ error: "Foydalanuvchi topilmadi" });
     const passwordRow = data.rows[0].password;
     const { id, status } = data.rows[0];
     if (!status) {
@@ -34,7 +34,7 @@ router.post("/", async (req, res, next) => {
       let token = await sign(id);
       return res.status(201).send({ token });
     } else {
-      return res.status(401).send({ error: "Parol xato" });
+      return res.status(400).send({ error: "Parol xato" });
     }
   } catch (error) {
 
