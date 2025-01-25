@@ -16,7 +16,9 @@ INNER JOIN
     book ON book.category = bookcategory.id
 WHERE 
     book.picture IS NOT NULL 
-    AND book.status;
+    AND book.status
+    limit 5
+    ;
 
 `);
 
