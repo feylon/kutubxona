@@ -1,7 +1,7 @@
 <template>
     <div class=" min-w-full bg-slate-100 min-h-screen pb-0 select-none">
         <div
-            class="relative min-w-full z-50 text-white bg-blue-400 h-[70px] sticky top-0 justify-between pe-4 flex items-center shadow-blue-400 shadow-sm drop-shadow-sm shadow-lg ">
+            class="relative min-w-full z-50 text-white bg-blue-500 h-[70px] sticky top-0 justify-between pe-4 flex items-center shadow-blue-400 shadow-sm drop-shadow-sm shadow-lg ">
             <RouterLink to="/" class="h-full flex items-center gap-4">
                 <fonta class="text-3xl   ms-5" :icon="['fas', 'book-open-reader']" />
                 <span class="font-bold me-5 uppercase font-sans">Kutubxona</span>
@@ -17,16 +17,17 @@
             <div>
                 <div v-if="!user.isAuth" ref="registr" class="flex  flex-col text-[17px] font-bold">
 
-                    <RouterLink to='/login'><font-awesome-icon :icon="['fas', 'right-to-bracket']" /> 
+                    <RouterLink to='/login'><font-awesome-icon :icon="['fas', 'right-to-bracket']" />
                         Kirish</RouterLink>
-                    <RouterLink to='/registr'><font-awesome-icon :icon="['fas', 'key']" /> Ro'yxatdan o'tish</RouterLink>
+                    <RouterLink to='/registr'><font-awesome-icon :icon="['fas', 'key']" /> Ro'yxatdan o'tish
+                    </RouterLink>
                 </div>
 
                 <div v-else ref="registr" class="flex items-center flex-col text-[17px] font-bold">
 
                     <img src="../assets/ffa09aec412db3f54deadf1b3781de2a.png" class="w-[30px] rounded-[50%]" alt="">
-                    <span class="text-white text-[13px]">{{profile.data.fullname}}</span>
-                   
+                    <span class="text-white text-[13px]">{{ profile.data.fullname }}</span>
+
                     <span class="text-white text-[13px]">Tizimdan chiqish</span>
                 </div>
             </div>
@@ -307,8 +308,8 @@ const handleScroll = () => {
 };
 const getProfile = async () => {
     try {
-     let   res = await fetchUser('/profile', 'GET', null, router);
-        if(res.status == 200){
+        let res = await fetchUser('/profile', 'GET', null, router);
+        if (res.status == 200) {
             res = await res.json();
             profile.value = res;
             user.isAuth = true;
@@ -318,7 +319,7 @@ const getProfile = async () => {
 
         console.log(profile.value)
     } catch (error) {
-       console.log(error) 
+        console.log(error)
     }
 }
 
