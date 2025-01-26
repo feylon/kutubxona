@@ -9,7 +9,6 @@ router.get("/", verify, async function (req, res) {
     return res.status(400).json({ message: "Token yo'q" });
   }
     const token = authHeader.split(" ")[1];
-    console.log(token)
     try {
       const result = await pool.query("DELETE FROM jwt_tokens WHERE token = $1", [token]);
   
