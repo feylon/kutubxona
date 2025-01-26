@@ -23,13 +23,14 @@
                     </RouterLink>
                 </div>
 
-                <div v-else ref="registr" class="flex items-center flex-col text-[17px] font-bold">
+                <n-dropdown v-else  :options="options" @select="handleSelect">
+                    <div  ref="registr" class="flex items-center cursor-pointer flex-col text-[17px] font-bold">
 
-                    <img src="../assets/ffa09aec412db3f54deadf1b3781de2a.png" class="w-[30px] rounded-[50%]" alt="">
-                    <span class="text-white text-[13px]">{{ profile.data.fullname }}</span>
+<img src="../assets/ffa09aec412db3f54deadf1b3781de2a.png" class="w-[30px] rounded-[50%]" alt="">
+<span class="text-white text-[13px]">{{ fullname }}</span>
 
-                    <span class="text-white text-[13px]">Tizimdan chiqish</span>
-                </div>
+</div>
+                </n-dropdown>
             </div>
         </div>
         <div class="container mt-4 max-width-[1300px] mx-auto">
@@ -266,18 +267,32 @@
 
 <script setup>
 import { RouterLink, useRouter, RouterView } from 'vue-router';
-import { ref, onMounted } from "vue";
+import { ref, h, onMounted } from "vue";
 import { User } from '../../Pinia';
 import NumberAnimation from "vue-number-animation";
 import Segment from './Segment.vue';
 import gsap from "gsap";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { useMessage } from 'naive-ui';
+
 const router = useRouter();
 const web_url1 = window.web_url;
+const message = useMessage();
 const isVisible = ref(false);
 const topBooks = ref([]);
 const user = User();
 const HasCategory = ref([]);
-const profile = ref({})
+const profile = ref({ data: { fullname: "Salom" } });
+const fullname = ref("");
+const options = [
+    {
+        label: "Tizimdan chiqish",
+        key: "exit",
+        icon: ()=>h(FontAwesomeIcon, { icon: ['fas', 'arrow-right-to-bracket'], class: "text-red-800  rotate-180" }),
+        
+    },
+
+]
 const getHasBookCategory = async () => {
     try {
         let res = await fetchUser('/book/getHasBookCategory')
@@ -308,16 +323,17 @@ const handleScroll = () => {
 };
 const getProfile = async () => {
     try {
-        let res = await fetchUser('/profile', 'GET', null, router);
+        let res = await fetchUser('/profile', "GET");
         if (res.status == 200) {
             res = await res.json();
             profile.value = res;
             user.isAuth = true;
+            fullname.value = res.data.fullname;
+            console.log("fullname ", fullname.value)
             return;
         }
         user.isAuth = false;
 
-        console.log(profile.value)
     } catch (error) {
         console.log(error)
     }
@@ -331,6 +347,20 @@ onMounted(async () => {
     window.addEventListener("scroll", handleScroll);
     await getProfile();
 });
+const  handleSelect = async (key) => {
+        if(String(key) == "exit"){
+            try {
+                let res = await fetchUser("/signout", "GET", null, router);
+                if (res.status == 200) {
+                    localStorage.removeItem("token");
+                    message.success ("Siz tizimdan chiqdingiz");
+                    return user.isAuth = false;
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+      }
 </script>
 
 <style scoped>
