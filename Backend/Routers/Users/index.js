@@ -14,6 +14,9 @@ import getHasBookCategory from "./Book/getHasBookCategory.js";
 // Add book
 import addorder from "./Order/addOrder.js";
 import getorder from "./Order/getOrder.js";
+import deleteOrder from "./Order/deleteOrder.js"
+import EditOrder from "./Order/EditOrder.js"
+
 export default [
   //   Auth user
   { path: "/register", component: register },
@@ -30,6 +33,10 @@ export default [
 
   // Add book
   {path : "/book/addorder", component : addorder},
-  {path : "/book/getorder", component : getorder}
+  {path : "/book/getorder", component : getorder},
+  {path : "/book/deleteOrder", component : deleteOrder},
+  {path : "/book/EditOrder", component : EditOrder}
+
+
 
 ];
