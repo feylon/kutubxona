@@ -56,3 +56,25 @@ CREATE TABLE book (
 	check(price >= 0),
 	check(amount >= 0)
 );
+-----------------------------------------------------------------------------------------------------
+CREATE TYPE order_status AS ENUM ('pending', 'rejected', 'accepted');
+
+CREATE TABLE orders (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    users_id UUID NOT NULL,
+    FOREIGN KEY (users_id) REFERENCES users(id),
+    active BOOLEAN DEFAULT false,
+    accept BOOLEAN DEFAULT false,
+    amount INTEGER CHECK (amount > 0),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status order_status DEFAULT 'pending'
+);
+CREATE TABLE order_books (
+	id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    order_id UUID NOT NULL,
+    book_id UUID NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (book_id) REFERENCES book(id) ON DELETE CASCADE
+);
+
+
