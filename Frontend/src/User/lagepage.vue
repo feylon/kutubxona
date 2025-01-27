@@ -259,8 +259,14 @@
 
     <div>
         <button
-            class="fixed bottom-6 right-6 bg-blue-500  text-white rounded-[50%] w-[60px] h-[60px] shadow-lg hover:bg-blue-600 transition duration-300">
-            <font-awesome-icon :icon="['fas', 'bag-shopping']" />
+        class="fixed bottom-6 right-6  bg-blue-500 text-white rounded-[50%] w-[60px] h-[60px] shadow-lg hover:bg-blue-600 transition duration-300">
+        <div class="relative flex flex-col">
+            <n-badge :value="user.orders.length" type="warning" class="top-1 right-1 absolute right-1 top-[-8px] z-100">
+
+</n-badge>
+<font-awesome-icon class="text-[20px]" :icon="['fas', 'bag-shopping']" />
+        </div>
+            
         </button>
     </div>
 </template>

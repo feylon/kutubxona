@@ -1,4 +1,10 @@
 <template>
+    <n-modal v-model:show="showModal" preset="dialog" title="Ro'yxatdan o'tish" content="Avval ro'yxatdan o'ting"
+        positive-text="Ro'yxatdan o'tish" negative-text="Bekor qilish"
+        :positive-button-props="{ type: 'primary', style: 'background-color: #2563eb; border-color: #2563eb;' }"
+        :negative-button-props="{ type: 'error', class: 'bg-red-600 text-white border-none' }"
+        @positive-click="submitCallback" @negative-click="cancelCallback" />
+
     <div>
 
         <div class="w-full mt-5  bg-white">
@@ -74,7 +80,7 @@
                                         class="font-normal text-[16px]">so'm</span></span>
                             </span>
 
-                            <button @click="console.log(i.id)"
+                            <button @click="Addorder(i.book_id);"
                                 class="px-6 py-2 min-w-[120px] text-center text-blue-600 border border-blue-600 rounded hover:bg-blue-600 hover:text-white active:bg-indigo-500 focus:outline-none focus:ring">
                                 <font-awesome-icon :icon="['fas', 'bag-shopping']" />
                             </button>
@@ -99,9 +105,14 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
+import { User } from "../../Pinia";
+import { useRouter } from "vue-router";
+const showModal = ref(false)
+const user = User();
 const topBooks = ref([]);
 const web_url1 = window.web_url;
-
+console.log(user.orders);
+const router = useRouter();
 const props = defineProps({
     obj: Object
 });
@@ -112,6 +123,7 @@ const callBook = async () => {
         if (res.status == 200) {
             res = await res.json();
             topBooks.value = res;
+            console.log(topBooks.value);
         }
     } catch (error) {
         console.log(error)
@@ -120,6 +132,32 @@ const callBook = async () => {
 }
 onMounted(async () => {
     await callBook();
-})
+});
+
+
+const cancelCallback = () => {
+};
+const submitCallback = () => {
+    router.push('/registr')
+};
+const Addorder = async (id) => {
+    if (!user.isAuth) return showModal.value = true;
+
+    const isBookExists = user.orders.some(order => order.book_id === id);
+    if (isBookExists) {
+        console.log('Buyurtma mavjud');
+        return;
+    }
+
+    user.orders.push({
+        book_id: id,
+        amount: 0,
+        active: false
+    });
+
+    console.log(user.orders);
+    console.log(id);
+};
+
 </script>
 <style scoped></style>

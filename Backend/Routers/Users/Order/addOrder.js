@@ -11,12 +11,11 @@ const orderSchema = Joi.object({
   amount: Joi.number().integer().positive().required(), 
   status: Joi.string().valid('pending', 'accepted', 'rejected').default('pending'), 
   active: Joi.boolean().default(false),
-  accept: Joi.boolean().default(false) 
 });
 
 router.post('/', verify, async (req, res) => {
   const { id: users_id } = req; 
-  const { book_id, amount, status, active, accept } = req.body;
+  const { book_id, amount, status, active } = req.body;
 
   const { error } = orderSchema.validate({ book_id, amount, status, active, accept });
   if (error) return res.status(400).send({ error: error.details[0].message });
@@ -48,7 +47,7 @@ export default router;
  *   post:
  *     summary: Create a new order for a book
  *     tags:
- *       - Orders USER
+ *       - Orders USERS
  *     security:
  *       - BearerAuth: []
  *     requestBody:
@@ -75,10 +74,6 @@ export default router;
  *               active:
  *                 type: boolean
  *                 description: Whether the order is active
- *                 example: false
- *               accept:
- *                 type: boolean
- *                 description: Whether the order is accepted
  *                 example: false
  *     responses:
  *       201:

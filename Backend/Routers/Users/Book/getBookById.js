@@ -16,6 +16,7 @@ router.get("/:id", async (req, res) => {
 book.id as book_id,
 bc.id as bc_id,
 book.name,
+false as select,
 book.picture,
 book.price as price,
 bc.name as category_name,

@@ -39,7 +39,7 @@ export default router;
  *   delete:
  *     summary: Delete an order for the authenticated user
  *     tags:
- *       - Orders
+ *       - Orders USERS
  *     security:
  *       - BearerAuth: []
  *     parameters:
