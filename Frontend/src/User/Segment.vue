@@ -80,7 +80,7 @@
                                         class="font-normal text-[16px]">so'm</span></span>
                             </span>
 
-                            <button v-if="!i.select" @click="Addorder(i.book_id, j);"
+                            <button v-if="!i.select" @click="Addorder(i.book_id, j, i.name, i.price);"
                                 class="px-6 py-2 min-w-[120px] text-center text-blue-600 border border-blue-600 rounded hover:bg-blue-600 hover:text-white active:bg-indigo-500 focus:outline-none focus:ring">
                                 <font-awesome-icon :icon="['fas', 'bag-shopping']" />
                             </button>
@@ -145,7 +145,7 @@ const cancelCallback = () => {
 const submitCallback = () => {
     router.push('/registr')
 };
-const Addorder = async (id, index) => {
+const Addorder = async (id, index, name, price) => {
     if (!user.isAuth) return showModal.value = true;
 
     const isBookExists = user.orders.some(order => order.book_id === id);
@@ -157,7 +157,9 @@ const Addorder = async (id, index) => {
     user.orders.push({
         book_id: id,
         amount: 0,
-        active: false
+        active: false, 
+        name : name,
+        price : price
     });
 
     console.log(user.orders);

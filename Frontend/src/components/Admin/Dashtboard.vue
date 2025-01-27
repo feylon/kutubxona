@@ -96,12 +96,12 @@ const menuOptions = [
         key: "EXIT_system",
         icon: () => h(FontAwesomeIcon, { icon: ['fas', 'arrow-right-to-bracket'], class: "text-red-800  rotate-180" }),
         onclick: () => {
-           
+
         },
         props: {
 
             onClick: async () => {
-               
+
 
             },
             class: "hover:text-red-800"
@@ -117,7 +117,7 @@ let handleUpdateValue = async function (key, item) {
         localStorage.removeItem('token');
         return message.success("Siz tizimdan chiqdingiz");
     }
-   
+
 };
 const callBackend = async () => {
     try {
@@ -136,5 +136,4 @@ onMounted(async () => {
 })
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
