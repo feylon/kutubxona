@@ -17,7 +17,7 @@ login = login.toLowerCase().trim()
 
 try {
     const data = await pool.query(`Select id, password from super_admin where username = $1`, [login])
-    if(data.rows.length === 0) return res.status(401).send({error : "Foydalanuvchi topilmadi"});
+    if(data.rows.length === 0) return res.status(402).send({error : "Foydalanuvchi topilmadi"});
     const passwordRow = data.rows[0].password;
     const {id} = data.rows[0];
     if(check_hash(password, passwordRow)){
@@ -25,7 +25,7 @@ try {
        return res.status(201).send({token})
     }
     else {
-        return res.status(401).send({error : "Parol xato"})
+        return res.status(402).send({error : "Parol xato"})
     }
 } catch (error) {
     res.status(500).send({error : "Serverda xatolik mavjud"})

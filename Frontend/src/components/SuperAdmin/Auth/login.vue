@@ -55,7 +55,7 @@ const loginfunc = async () => {
         disabled.value = true;
         let data = await fetchSuperAdmin('/superadmin/login', 'POST', { login: login.value, password: password.value }, router);
         console.log(data.status)
-        if (data.status == 401) {
+        if (data.status == 402) {
             disabled.value = false;
             message.error("Parol yoki login xato");
             login.value = "";
