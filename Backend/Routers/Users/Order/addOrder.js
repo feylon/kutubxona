@@ -41,3 +41,87 @@ router.post('/', verify, async (req, res) => {
 });
 
 export default router;
+
+/**
+ * @swagger
+ * /api/users/book/addorder:
+ *   post:
+ *     summary: Create a new order for a book
+ *     tags:
+ *       - Orders USER
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               book_id:
+ *                 type: string
+ *                 format: uuid
+ *                 description: The UUID of the book to order
+ *                 example: "d290f1ee-6c54-4b01-90e6-d701748f0851"
+ *               amount:
+ *                 type: integer
+ *                 description: The quantity of the book to order
+ *                 example: 3
+ *               status:
+ *                 type: string
+ *                 enum: [pending, accepted, rejected]
+ *                 description: The status of the order
+ *                 example: "pending"
+ *               active:
+ *                 type: boolean
+ *                 description: Whether the order is active
+ *                 example: false
+ *               accept:
+ *                 type: boolean
+ *                 description: Whether the order is accepted
+ *                 example: false
+ *     responses:
+ *       201:
+ *         description: Order successfully created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Order yaratildi"
+ *                 order:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       format: uuid
+ *                       description: The UUID of the newly created order
+ *                       example: "d290f1ee-6c54-4b01-90e6-d701748f0851"
+ *                     created_at:
+ *                       type: string
+ *                       format: date-time
+ *                       description: The timestamp of when the order was created
+ *                       example: "2025-01-01T10:00:00Z"
+ *       400:
+ *         description: Validation or foreign key error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "'d290f1ee-6c54-4b01-90e6-d701748f0851' jadvalda topilmadi"
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Server xato"
+ */

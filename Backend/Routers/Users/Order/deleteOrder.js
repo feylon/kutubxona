@@ -33,3 +33,63 @@ router.delete("/:orderId", verify, async (req, res) => {
   }
 });
 export default router;
+/**
+ * @swagger
+ * /api/users/book/deleteOrder/{orderId}:
+ *   delete:
+ *     summary: Delete an order for the authenticated user
+ *     tags:
+ *       - Orders
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - name: orderId
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *         description: The unique ID of the order to delete
+ *         example: "da74eb8c-448e-42b3-b3f8-2492ddcde1f1"
+ *     responses:
+ *       200:
+ *         description: Order successfully deleted
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Buyurtma o`chirildi"
+ *       400:
+ *         description: Bad request, invalid or missing parameters
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "orderId must be a valid UUID"
+ *       404:
+ *         description: Order not found or unauthorized access
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Mavjud emas"
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Serverda muommo chiqdi"
+ */

@@ -32,3 +32,78 @@ where orders.users_id = $1`,
   }
 });
 export default router;
+/**
+ * @swagger
+ * /api/users/book/getorder:
+ *   get:
+ *     summary: Get all orders for the authenticated user
+ *     tags:
+ *       - Orders USERS
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: A list of orders for the authenticated user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: string
+ *                     format: uuid
+ *                     description: The unique ID of the order
+ *                     example: "d290f1ee-6c54-4b01-90e6-d701748f0851"
+ *                   book_id:
+ *                     type: string
+ *                     format: uuid
+ *                     description: The unique ID of the book in the order
+ *                     example: "a9af5539-7f74-40b2-892a-406d8ff67362"
+ *                   amount:
+ *                     type: integer
+ *                     description: The quantity of the book in the order
+ *                     example: 2
+ *                   status:
+ *                     type: string
+ *                     enum: [pending, accepted, rejected]
+ *                     description: The status of the order
+ *                     example: "pending"
+ *                   active:
+ *                     type: boolean
+ *                     description: Whether the order is active
+ *                     example: false
+ *                   accept:
+ *                     type: boolean
+ *                     description: Whether the order is accepted
+ *                     example: false
+ *                   created_at:
+ *                     type: string
+ *                     format: date-time
+ *                     description: The timestamp when the order was created
+ *                     example: "2025-01-01T10:00:00Z"
+ *                   name:
+ *                     type: string
+ *                     description: The name of the book in the order
+ *                     example: "JavaScript: The Good Parts"
+ *                   price:
+ *                     type: number
+ *                     format: float
+ *                     description: The price of the book in the order
+ *                     example: 19.99
+ *                   picture:
+ *                     type: string
+ *                     description: The URL to the picture of the book
+ *                     example: "https://example.com/images/book.jpg"
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Server xato"
+ */
