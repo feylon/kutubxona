@@ -17,6 +17,7 @@ const User = defineStore("counter", () => {
   const count = ref(0);
   const isAuth = ref(false);
   const orders = ref([]);
+  const UpdateOrder = ref(false);
   const doubleCount = computed(() => count.value * 2);
 
   function checkBookIdInOrders(id) {
@@ -27,7 +28,7 @@ const User = defineStore("counter", () => {
     count.value++;
   }
 
-  return { count, doubleCount, increment, orders, checkBookIdInOrders };
+  return { count, doubleCount, increment, orders, checkBookIdInOrders, UpdateOrder };
 });
 export { Superadmin, User };
 

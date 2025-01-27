@@ -13,14 +13,14 @@ router.delete("/:orderId", verify, async (req, res) => {
   if (error) return res.status(400).send({ error: error.message });
   try {
     const orderCheck = await pool.query(
-      `SELECT id, accept FROM orders WHERE id = $1 AND users_id = $2 limit 1`,
+      `SELECT id, accept, status FROM orders WHERE id = $1 AND users_id = $2 limit 1`,
       [orderId, users_id]
     );
 
     if (orderCheck.rows.length === 0) {
       return res.status(404).send({ error: "Mavjud emas" });
     }
-    if (orderCheck.rows[0].accept) {
+    if (orderCheck.rows[0].status == 'accepted' || orderCheck.rows[0].status == 'rejected') {
       return res.status(400).send({
         error: "Admin tomonidan tasdiqlangan. O'chirish mumkin emas.",
       });
