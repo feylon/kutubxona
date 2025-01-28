@@ -13,6 +13,7 @@ import getadmin from "./Admin/getAdmin.js"
 // Users
 import getUser from "./user/get.js";
 import changeStatususer from "./user/changeStatus.js";
+import getuseramount from "./user/getUsers.js";
 
 // BookCategory
 
@@ -46,6 +47,7 @@ export default [
 
     {path : "/users/getusers", component : getUser},
     {path : "/users/changestatus", component : changeStatususer},
+    {path : "/users/getuseramount", component : getuseramount},
 
     // BookCategory
     {path : "/BookCategory/AddBookCategory", component : AddBookCategory},
