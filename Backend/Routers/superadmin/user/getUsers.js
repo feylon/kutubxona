@@ -1,25 +1,24 @@
 import { Router } from "express";
 import { verify } from "../../../functions/jwt_super_admin.js";
 import Joi from "joi";
-import pool from "../../../functions/database.js"; // Ensure you have a pool connection setup
+import pool from "../../../functions/database.js"; 
 
 const router = Router();
 
-// Validation schema
 const schema = Joi.object({
-    page: Joi.number().integer().min(1).default(1),
-    limit: Joi.number().integer().min(1).default(10),
+  page: Joi.number().integer().min(1).default(1),
+  limit: Joi.number().integer().min(1).default(10),
 });
 
-router.get('/', async (req, res) => {
-    try {
-        const { error, value } = schema.validate(req.query);
-        if (error) return res.status(400).send({ message: error.message });
+router.get("/", verify, async (req, res) => {
+  try {
+    const { error, value } = schema.validate(req.query);
+    if (error) return res.status(400).send({ message: error.message });
 
-        const { page, limit } = value;
-        const offset = (page - 1) * limit;
+    const { page, limit } = value;
+    const offset = (page - 1) * limit;
 
-        const query = `
+    const query = `
             SELECT DISTINCT
                 users.id AS user_id,
                 users.fullname AS fullname,
@@ -42,25 +41,25 @@ router.get('/', async (req, res) => {
             LIMIT $1 OFFSET $2
         `;
 
-        const { rows } = await pool.query(query, [limit, offset]);
+    const { rows } = await pool.query(query, [limit, offset]);
 
-        const countQuery = `SELECT COUNT(*) AS total_users FROM users`;
-        const countResult = await pool.query(countQuery);
-        const totalUsers = parseInt(countResult.rows[0].total_users, 10);
+    const countQuery = `SELECT COUNT(*) AS total_users FROM users`;
+    const countResult = await pool.query(countQuery);
+    const totalUsers = parseInt(countResult.rows[0].total_users, 10);
 
-        res.json({
-            data: rows,
-            pagination: {
-                page,
-                limit,
-                totalRecords: totalUsers,
-                totalPages: Math.ceil(totalUsers / limit),
-            },
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send({ error: "Tizimda muommo bor." });
-    }
+    res.json({
+      data: rows,
+      pagination: {
+        page,
+        limit,
+        totalRecords: totalUsers,
+        totalPages: Math.ceil(totalUsers / limit),
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Tizimda muommo bor." });
+  }
 });
 
 export default router;

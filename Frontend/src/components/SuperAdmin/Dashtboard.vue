@@ -89,6 +89,17 @@ const menuOptions = [
         label: () => h(
             RouterLink,
             {
+                to: "/superadmin/users"
+            },
+            { default: () => "Foydalanuvchilar" }
+        ),
+        key: "users",
+        icon: () => h(FontAwesomeIcon, { icon: ['fas', 'users'] })
+    },
+    {
+        label: () => h(
+            RouterLink,
+            {
                 to: "/superadmin/login",
             },
             { default: () => "Tizimdan chiqish", }
