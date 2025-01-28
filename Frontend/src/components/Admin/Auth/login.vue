@@ -55,7 +55,7 @@ const loginfunc = async () => {
         disabled.value = true;
         let data = await fetchAdmin('/login', 'POST', { login: login.value, password: password.value }, router);
         console.log(data.status)
-        if (data.status == 401) {
+        if (data.status == 400) {
             disabled.value = false;
             message.error("Parol yoki login xato");
             login.value = "";
@@ -71,11 +71,20 @@ const loginfunc = async () => {
             password.value = ""
             return null;
         }
-        if (data.status == 401) {
+        if (data.status == 400) {
             data = await data.json();
             console.log(data)
             disabled.value = false;
             message.error("Parol yoki login xato");
+            login.value = "";
+            password.value = ""
+            return null;
+        }
+        if (data.status == 406) {
+            data = await data.json();
+            console.log(data)
+            disabled.value = false;
+            message.error("Admin tomonidan bloklangan");
             login.value = "";
             password.value = ""
             return null;

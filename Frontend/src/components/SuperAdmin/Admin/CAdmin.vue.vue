@@ -15,10 +15,10 @@
     </thead>
     <tbody>
       <tr  v-if="data.length > 0" v-for="(i, j) in data" :key = "i.id">
-          <td>{{++ j}}</td>
+          <td>{{ j + 1}}</td>
         <td>{{i.fullname}}</td>
         <td class="font-extralight">{{i.username}}</td>
-        <td class="font-extralight"><n-switch v-model:value="i.status"  :checked-value="true" :unchecked-value="false" /></td>
+        <td class="font-extralight"><n-switch v-model:value="i.status" @change="change(i.id, j)" :checked-value="true" :unchecked-value="false" /></td>
         <td class="font-extralight">{{new Date(i.created_at).toLocaleString()}}</td>
         <td> <n-button @click="router.push(`/superadmin/edit/${i.id}/${i.fullname}/${i.username}`)"><fonta :icon="['fas', 'pen']"/></n-button></td>
       </tr>
@@ -64,7 +64,16 @@ try {
 };
 onMounted(async ()=>{
 await backend();
-})
+});
+const change = (id, index)=>{
+    let status = data.value[index].status;
+    let data1 = {
+        status: status
+    }
+    fetchSuperAdmin(`/superadmin/admin/changestatus/${id}`, "POST", data1, router);
+
+}
+
 </script>
 
 <style lang="scss" scoped></style>

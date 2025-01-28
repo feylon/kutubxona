@@ -22,12 +22,12 @@ router.post("/", async (req, res, next) => {
       [login]
     );
     if (data.rows.length === 0)
-      return res.status(401).send({ error: "Foydalanuvchi topilmadi" });
+      return res.status(400).send({ error: "Foydalanuvchi topilmadi" });
     const passwordRow = data.rows[0].password;
     const { id, status } = data.rows[0];
     if (!status) {
       return res
-        .status(403)
+        .status(406)
         .send({ message: "Super-Admin tomonidan bloklangan" });
     }
     if (check_hash(password, passwordRow)) {
