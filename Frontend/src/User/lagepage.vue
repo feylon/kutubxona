@@ -19,7 +19,7 @@
 
                     <RouterLink to='/login'><font-awesome-icon :icon="['fas', 'right-to-bracket']" />
                         Kirish</RouterLink>
-                    <RouterLink to='/registr'><font-awesome-icon :icon="['fas', 'key']" /> Ro'yxatdan o'tish
+                    <RouterLink v-if="false" to='/registr'><font-awesome-icon :icon="['fas', 'key']" /> Ro'yxatdan o'tish
                     </RouterLink>
                 </div>
 

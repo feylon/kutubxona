@@ -51,7 +51,7 @@
           v-model:page="page"
           :page-count="totalPages"
           :page-size="limit"
-          @update:page="fetchUsers"
+          @update:page="callBackend"
         />
       </div>
     </div>
@@ -60,24 +60,17 @@
   
   <script setup>
   import { ref, onMounted } from "vue";
-  
-  // State for users, pagination, and loading
+  import {useRouter} from "vue-router";
+  const router = useRouter();
   const users = ref([]);
-  const page = ref(1); // Current page
-  const totalPages = ref(0); // Total pages from the backend
-  const limit = 10; // Records per page
+  const page = ref(1); 
+  const totalPages = ref(0); 
+  const limit = 10; 
   
-  // Fetch users data
-  const fetchUsers = async () => {
-    const URL = `http://localhost:4100/api/admin/getusers?page=${page.value}&limit=${limit}`;
+  const callBackend = async () => {
+    const URL = `http://localhost:4100/api/admin`;
     try {
-      const response = await fetch(URL, {
-        method: "GET",
-        headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdhOGYxZDVhLTA3MDktNGViZC1hMWZmLWNiYmQ5YTYyMGEwZSIsImlhdCI6MTczODAzNjk1NSwiZXhwIjoxNzM4MDUxMzU1fQ._pslccC5ndM7lMj6N7CypzlTMli8xy-xbJ36F58jKjg",
-        },
-      });
+      const response = await fetchAdmin(`/getusers?page=${page.value}&limit=${limit}`, "GET", null, router);
       const data = await response.json();
       users.value = data.data;
       totalPages.value = data.pagination.totalPages;
@@ -87,13 +80,10 @@
     }
   };
   
-  // Fetch initial data
   onMounted(() => {
-    fetchUsers();
+    callBackend();
   });
   </script>
   
-  <style scoped>
-  /* Add custom styles if needed */
-  </style>
+ 
   

@@ -6,6 +6,7 @@ import signOut from "./Auth/signOut.js";
 // Order
 import getOrder from "./Orders/getOrders.js";
 import editOrder from "./Orders/EditOrder.js";
+import changeorder from "./Orders/ChengeRejected.js";
 
 // GET USERS
 import getusers from "./Users/get.js"
@@ -18,6 +19,7 @@ export default [
 
     {path : "/getorder", component : getOrder},
     {path : "/editOrder", component : editOrder},
+    {path : "/changeorder", component : changeorder},
 // GET USER
     {path : "/getusers", component : getusers}
 ]

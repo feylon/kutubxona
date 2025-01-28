@@ -30,6 +30,7 @@
                                 <th scope="col" class="px-6 py-3 bg-gray-50 text-center">
                                     Tasdiqlash
                                 </th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody v-if="user.orders.length > 0">
@@ -80,6 +81,7 @@
 
                                     </div>
                                 </td>
+                                <td class="px-6 py-4 w-[150px] bg-gray-50"></td>
                             </tr>
 
                         </tbody>
