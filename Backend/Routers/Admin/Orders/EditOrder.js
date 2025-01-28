@@ -56,8 +56,8 @@ router.put("/:orderId", verify, async (req, res) => {
       await pool.query(updateOrderQuery, [orderId]);
 
       res
-        .status(200)
-        .json({ message: "Order rejected due to insufficient stock" });
+        .status(400)
+        .json({ error: "Kitoblar soni yetarli emas" });
     }
   } catch (error) {
     console.error(error);

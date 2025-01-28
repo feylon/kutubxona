@@ -8,18 +8,20 @@ const router = Router();
 router.put("/:orderId/:status", verify, async (req, res) => {
   const Schema = Joi.object({
     orderId: Joi.string().required().uuid(),
-    status: Joi.string().required().valid("pending", "rejected"),
+    status: Joi.string().required().valid("pending", "rejected", "accepted"),
   });
   let checkSchema = Schema.validate(req.params);
   let { error } = checkSchema;
   if (error) return res.status(400).send({ error: error.message });
   const { orderId, status } = await Schema.validateAsync(req.params);
   try {
-    const count = await pool.query(`select * from orders where id = $1`, [
+    const count = await pool.query(`select  status from orders where id = $1`, [
       orderId,
     ]);
     if (count.rows.length === 0)
       return res.status(400).json({ message: "Buyurtma topilmadi" });
+    if (count.rows[0].status == 'accepted')
+        return res.status(400).json({ error: "Buyurtma yuborilgan" });
     const data = await pool.query(
       `update orders set status =$2 where id = $1 returning status`,
       [orderId, status]

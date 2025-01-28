@@ -16,8 +16,8 @@
                             <th class="border border-gray-300 px-4 py-2">Kitob nomi</th>
                             <th class="border border-gray-300 px-4 py-2">Buyurtmachi</th>
                             <th class="border border-gray-300 px-4 py-2">Kitoblar soni</th>
-                            <th class="border border-gray-300 w-[200px] py-2"> <n-select v-model:value="filter" :options="statusFetchOptions"
-                                    @update:value="fetchOrders()"></n-select></th>
+                            <th class="border border-gray-300 w-[200px] py-2"> <n-select v-model:value="filter"
+                                    :options="statusFetchOptions" @update:value="fetchOrders()"></n-select></th>
                             <th class="border border-gray-300 px-4 py-2">Miqdori</th>
 
                             <th class="border border-gray-300 px-4 py-2">Narxi</th>
@@ -50,9 +50,9 @@
                             <td class="border border-gray-300 px-4 py-2">
                                 {{ new Date(order.created_at).toLocaleString() }}
                             </td>
-                           
+
                             <td class="border border-gray-300 px-4 py-2 w-[130px]">
-                                <n-select v-model:value="order.status" :options="statusOptions"
+                                <n-select :value="order.status" :options="statusOptions"
                                     @update:value="changeStatus(order.order_id, $event)" class="w-full">
                                 </n-select>
                             </td>
@@ -82,40 +82,42 @@ const router = useRouter();
 
 const fetchOrders = async () => {
     loading.value = true;
-   if(filter.value == "*"){ try {
-        let response = await fetchAdmin(`/getorder?page=${pagination.value.page}&limit=${pagination.value.limit}`, "GET", null, router);
+    if (filter.value == "*") {
+        try {
+            let response = await fetchAdmin(`/getorder?page=${pagination.value.page}&limit=${pagination.value.limit}`, "GET", null, router);
 
-        if (response.status == 200) {
-            response = await response.json();
-            orders.value = response.data;
-            pagination.value = response.pagination;
-        } else {
-            console.error("Error fetching orders:", response);
-        };
-    } catch (error) {
-        console.error("Error fetching orders:", error);
-    } finally {
-        loading.value = false;
+            if (response.status == 200) {
+                response = await response.json();
+                orders.value = response.data;
+                pagination.value = response.pagination;
+            } else {
+                console.error("Error fetching orders:", response);
+            };
+        } catch (error) {
+            console.error("Error fetching orders:", error);
+        } finally {
+            loading.value = false;
+        }
+        return null;
     }
-    return null;
-}
-{ try {
-        let response = await fetchAdmin(`/getOrdersByCondition?page=${pagination.value.page}&limit=${pagination.value.limit}&status=${filter.value}`, "GET", null, router);
+    {
+        try {
+            let response = await fetchAdmin(`/getOrdersByCondition?page=${pagination.value.page}&limit=${pagination.value.limit}&status=${filter.value}`, "GET", null, router);
 
-        if (response.status == 200) {
-            response = await response.json();
-            orders.value = response.data;
-            pagination.value = response.pagination;
-        } else {
-            console.error("Error fetching orders:", response);
-        };
-    } catch (error) {
-        console.error("Error fetching orders:", error);
-    } finally {
-        loading.value = false;
+            if (response.status == 200) {
+                response = await response.json();
+                orders.value = response.data;
+                pagination.value = response.pagination;
+            } else {
+                console.error("Error fetching orders:", response);
+            };
+        } catch (error) {
+            console.error("Error fetching orders:", error);
+        } finally {
+            loading.value = false;
+        }
+        return null;
     }
-    return null;
-}
 };
 
 onMounted(async () => await fetchOrders());
@@ -134,14 +136,20 @@ const statusFetchOptions = [
     { label: 'Bekor qilindi', value: 'rejected' }
 ];
 const changeStatus = async (order_id, status) => {
-    console.log(status);
     if (status == 'accepted') {
         try {
             let response = await fetchAdmin(`/editOrder/${order_id}`, "PUT", { status }, router);
             if (response.status == 200) {
                 message.success("Status o'zgartirildi");
                 await fetchOrders();
-            } else {
+            }
+            if (response.status == 400) {
+                response = await response.json();
+                await fetchOrders();
+
+                message.error(response.error);
+            }
+            else {
                 console.error("Error changing status:", response);
             }
         } catch (error) {
@@ -155,7 +163,14 @@ const changeStatus = async (order_id, status) => {
             if (response.status == 200) {
                 message.success("Status o'zgartirildi");
                 await fetchOrders();
-            } else {
+            } if (response.status == 400) {
+                response = await response.json();
+                await fetchOrders();
+
+                message.error(response.error);
+            }
+
+            else {
                 console.error("Error changing status:", response);
             }
         } catch (error) {
@@ -169,6 +184,11 @@ const changeStatus = async (order_id, status) => {
             if (response.status == 200) {
                 message.success("Status o'zgartirildi");
                 await fetchOrders();
+            } if (response.status == 400) {
+                response = await response.json();
+                await fetchOrders();
+
+                message.error(response.error);
             } else {
                 console.error("Error changing status:", response);
             }
