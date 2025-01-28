@@ -1,4 +1,4 @@
-// URL http://localhost:4100/api/admin/getorder?limit=2&page=1 tags : admin order 
+// URL http://localhost:4100/api/admin/getOrdersByCondition?status=accepted tags : admin order 
 import Joi from "joi";
 import { Router } from "express";
 import pool from "../../../functions/database.js";
@@ -10,12 +10,13 @@ router.get('/', verify, async (req, res) => {
     const schema = Joi.object({
       page: Joi.number().integer().min(1).default(1),  
       limit: Joi.number().integer().min(1).default(10), 
+      status: Joi.string().valid('pending', 'accepted', 'rejected').required()
     });
     let checkSchema = schema.validate(req.query);
     let {error} = checkSchema;
     if(error) return res.status(400).send({error : error.message});
 
-    const { page, limit } = await schema.validateAsync(req.query);
+    const { page, limit, status } = await schema.validateAsync(req.query);
 
     const offset = (page - 1) * limit;
 
@@ -34,20 +35,22 @@ router.get('/', verify, async (req, res) => {
       FROM orders
       INNER JOIN book ON book.id = orders.book_id
       INNER JOIN users ON users.id = orders.users_id
+      where orders.status = $3
       order by orders.created_at desc
       LIMIT $1 OFFSET $2
     `;
     
-    const { rows } = await pool.query(query, [limit, offset]);
+    const { rows } = await pool.query(query, [limit, offset, status]);
 
     const countQuery = `
       SELECT COUNT(*) 
       FROM orders
       INNER JOIN book ON book.id = orders.book_id
       INNER JOIN users ON users.id = orders.users_id
+      where orders.status = $1
     `;
     
-    const countResult = await pool.query(countQuery);
+    const countResult = await pool.query(countQuery, [status]);
     const totalRecords = parseInt(countResult.rows[0].count);
 
     res.json({
@@ -67,33 +70,43 @@ router.get('/', verify, async (req, res) => {
 });
 
 export default router;
-
-
-
 /**
  * @swagger
- * /api/admin/getorder:
+ * /api/admin/getOrdersByCondition:
  *   get:
- *     summary: Get paginated orders
- *     description: Fetch a list of orders with pagination support. Returns the orders with the total count and pagination info.
  *     tags:
  *       - admin order
+ *     summary: Get orders by status with pagination
+ *     description: Fetch orders filtered by their status, with support for pagination.
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
+ *       - name: status
+ *         in: query
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [pending, accepted, rejected]
+ *         description: Filter orders by their status.
  *       - name: page
  *         in: query
  *         required: false
  *         schema:
  *           type: integer
  *           default: 1
+ *           example: 1
+ *         description: The page number for pagination.
  *       - name: limit
  *         in: query
  *         required: false
  *         schema:
  *           type: integer
  *           default: 10
+ *           example: 10
+ *         description: The number of records per page.
  *     responses:
  *       200:
- *         description: A list of orders with pagination information.
+ *         description: A list of orders and pagination details.
  *         content:
  *           application/json:
  *             schema:
@@ -105,49 +118,72 @@ export default router;
  *                     type: object
  *                     properties:
  *                       order_id:
- *                         type: integer
- *                         description: The ID of the order.
+ *                         type: string
+ *                         format: uuid
+ *                         example: "41dd41a1-9538-4b8d-947e-16340a8cbc1f"
  *                       accept:
  *                         type: boolean
- *                         description: Whether the order was accepted.
+ *                         example: true
  *                       amount:
  *                         type: integer
- *                         description: The amount of the order.
+ *                         example: 2
  *                       created_at:
  *                         type: string
  *                         format: date-time
- *                         description: The timestamp when the order was created.
+ *                         example: "2025-01-27T18:17:06.353Z"
  *                       status:
  *                         type: string
- *                         description: The status of the order.
+ *                         example: "accepted"
  *                       fullname:
  *                         type: string
- *                         description: Full name of the user who placed the order.
+ *                         example: "John Doe"
  *                       price:
- *                         type: number
- *                         format: float
- *                         description: Price of the book.
+ *                         type: string
+ *                         format: decimal
+ *                         example: "15.50"
  *                       summ:
- *                         type: number
- *                         format: float
- *                         description: Total sum (price * amount).
+ *                         type: string
+ *                         format: decimal
+ *                         example: "31.00"
+ *                       name:
+ *                         type: string
+ *                         example: "Book Title"
+ *                       asbook_count:
+ *                         type: integer
+ *                         example: 10
  *                 pagination:
  *                   type: object
  *                   properties:
  *                     page:
  *                       type: integer
- *                       description: The current page number.
+ *                       example: 1
  *                     limit:
  *                       type: integer
- *                       description: The number of records per page.
+ *                       example: 10
  *                     totalRecords:
  *                       type: integer
- *                       description: The total number of records available.
+ *                       example: 50
  *                     totalPages:
  *                       type: integer
- *                       description: The total number of pages based on limit.
+ *                       example: 5
  *       400:
- *         description: Invalid query parameters (e.g., invalid `page` or `limit`).
+ *         description: Invalid input or missing parameters.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "status is required"
  *       500:
  *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Server xato"
  */
