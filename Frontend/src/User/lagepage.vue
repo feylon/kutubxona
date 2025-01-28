@@ -189,9 +189,7 @@ const  handleSelect = async (key) => {
 </script>
 
 <style scoped>
-.borderff {
-    background-image: url('../assets/85b60de3-fe65-5769-8e0b-450dc95e956e.jfif');
-}
+
 
 button {
     animation: fadeIn 0.3s ease-in-out;

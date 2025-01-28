@@ -17,7 +17,7 @@ INNER JOIN
 WHERE 
     book.picture IS NOT NULL 
     AND book.status
-    limit 5
+    
     ;
 
 `);

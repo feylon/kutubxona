@@ -87,10 +87,10 @@
 
 
 
-            <div class="w-full mt-5  bg-white">
+            <div v-if="false" class="w-full mt-5  bg-white">
                 <div class="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16">
 
-                    <div class="border-b mb-5 flex justify-between text-sm">
+                    <div  class="border-b mb-5 flex justify-between text-sm">
                         <div class="text-blue-600 flex items-center pb-2 pr-2 border-b-2 border-blue-600 uppercase">
                             <svg class="h-6 mr-3" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 455.005 455.005"
@@ -119,7 +119,7 @@
                                     </path>
                                 </g>
                             </svg>
-                            <div class="font-bold text-[24px] inline-block"> Top kitoblar</div>
+                            <div  class="font-bold text-[24px] inline-block"> Top kitoblar</div>
                         </div>
 
                     </div>
@@ -285,5 +285,7 @@ const  handleSelect = async (key) => {
 </script>
 
 <style lang="scss" scoped>
-
+.borderff {
+    background-image: url('../assets/85b60de3-fe65-5769-8e0b-450dc95e956e.jfif');
+}
 </style>
