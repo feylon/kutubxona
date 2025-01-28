@@ -33,7 +33,15 @@ const router = createRouter({
 
 // For Admin
         {path:"/admin/login", component : ()=>import ("../src/components/Admin/Auth/login.vue")},
-        {path:"/admin", component : ()=>import ("../src/components/Admin/Dashtboard.vue")}
+        {path:"/admin", component : ()=>import ("../src/components/Admin/Dashtboard.vue"),
+            children : [
+        {path:"/admin/orders", component : ()=>import ("../src/components/Admin/AdminOrder/order.vue")},
+        {path:"/admin/users", component : ()=>import ("../src/components/Admin/users.vue")}
+
+
+            ]
+        },
+
 
     ]
 }) ;

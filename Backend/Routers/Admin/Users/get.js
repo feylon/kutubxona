@@ -49,7 +49,7 @@ router.get("/", verify, async (req, res) => {
 export default router;
 /**
  * @swagger
- * /api/users:
+ * /api/admin/getusers:
  *   get:
  *     summary: Get a list of users with pagination
  *     description: This endpoint retrieves a paginated list of users, including their `id`, `fullname`, `username`, `status`, and `created_at`.

@@ -55,36 +55,26 @@ const menuOptions = [
         label: () => h(
             RouterLink,
             {
-                to: "/superadmin/admin"
+                to: "/admin/orders"
             },
-            { default: () => "Adminlar" }
+            { default: () => "Buyurtmalar" }
         ),
         key: "go-back-home",
-        icon: () => h(FontAwesomeIcon, { icon: ['fas', 'user-secret'] })
+        icon: () => h(FontAwesomeIcon, { icon: ['fas', 'cart-shopping'] })
     },
     {
         label: () => h(
             RouterLink,
             {
-                to: "/superadmin/bookCategory"
+                to: "/admin/users"
             },
-            { default: () => "Kitob kategoriyalari" }
+            { default: () => "Foydalanuvchilar" }
         ),
         key: "bookCategory",
-        icon: () => h(FontAwesomeIcon, { icon: ['f-solid', 'fa-book-atlas'] })
+        icon: () => h(FontAwesomeIcon, { icon: ['fas', 'users'] })
     },
 
-    {
-        label: () => h(
-            RouterLink,
-            {
-                to: "/superadmin/books"
-            },
-            { default: () => "Kitoblar" }
-        ),
-        key: "books",
-        icon: () => h(FontAwesomeIcon, { icon: ['fas', 'book'] })
-    },
+   
     {
         label: () => h(
             RouterLink,

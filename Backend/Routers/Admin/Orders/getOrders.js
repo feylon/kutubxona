@@ -28,6 +28,8 @@ router.get('/', verify, async (req, res) => {
         orders.status AS status,
         users.fullname AS fullname,
         book.price AS price,
+        book.name AS name,
+      (Select b.amount from book b where b.id = orders.book_id ) asbook_count, 
         book.price * orders.amount AS summ
       FROM orders
       INNER JOIN book ON book.id = orders.book_id
