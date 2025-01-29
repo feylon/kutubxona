@@ -29,7 +29,12 @@ import Editbook from "./Book/EditBook.js";
 import deleteBook from "./book/DeleteBook.js";
 import pdfload from "./book/UploadPdf.js";
 import UploadPics from "./Book/UploadPics.js";
-import getByCategory from "./Book/getByCategory.js"
+import getByCategory from "./Book/getByCategory.js";
+// ORDERS
+import getOrder from "./Orders/getOrders.js";
+import getOrdersByCondition from "./Orders/getOrdersByCondition.js";
+
+
 export default [
 
     // AUTH
@@ -62,5 +67,13 @@ export default [
     {path : "/book/deleteBook", component : deleteBook},
     {path : "/book/pdfload", component : pdfload},
     {path : "/book/UploadPics", component : UploadPics},
-    {path : "/book/getByCategory", component : getByCategory}
+    {path : "/book/getByCategory", component : getByCategory},
+
+
+    // ORDERS
+    {path : "/getorder", component : getOrder},
+    {path : "/getOrdersByCondition", component : getOrdersByCondition},
+
+
+
 ]

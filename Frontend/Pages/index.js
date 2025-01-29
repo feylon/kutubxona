@@ -15,6 +15,7 @@ const router = createRouter({
                 {path : "/superadmin/addbookCategory/:id/:name", component : ()=>import("../src/components/SuperAdmin/Book/editbookCategory.vue")},
                 {path : "/superadmin/books", component : ()=>import("../src/components/SuperAdmin/Book/book.vue")},
                 {path : "/superadmin/users", component : ()=>import("../src/components/SuperAdmin/Users/showUser.vue")},
+                {path : "/superadmin/orders", component : ()=>import("../src/components/SuperAdmin/Orders/Order.vue")},
 
 
 

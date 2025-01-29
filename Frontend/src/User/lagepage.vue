@@ -7,12 +7,12 @@
                 <span class="font-bold me-5 uppercase font-sans">Kutubxona</span>
             </RouterLink>
             <nav class="flex justify-center flex-wrap gap-6 text-white font-medium">
-                <a href=# class="hover:text-gray-200 cursor-pointer">Home</a>
-                <a href=# class="hover:gray-200 cursor-pointer">About</a>
-                <a href=# class="hover:text-gray-200 cursor-pointer">Services</a>
+                <a href=# class="hover:text-gray-200 cursor-pointer">Bosh sahifa</a>
+                <a href=# class="hover:gray-200 cursor-pointer">Biz haqimizda</a>
+                <a href=# class="hover:text-gray-200 cursor-pointer">Xizmatlar</a>
                 <a href=# class="hover:text-gray-200 cursor-pointer">Media</a>
-                <a href=# class="hover:text-gray-200 cursor-pointer">Gallery</a>
-                <a href=# class="hover:text-gray-200 cursor-pointer">Contact</a>
+                <a href=# class="hover:text-gray-200 cursor-pointer">Foto jamlanma</a>
+                <a href=# class="hover:text-gray-200 cursor-pointer">Kontakt</a>
             </nav>
             <div>
                 <div v-if="!user.isAuth" ref="registr" class="flex  flex-col text-[17px] font-bold">

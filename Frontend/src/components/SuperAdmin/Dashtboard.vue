@@ -4,45 +4,57 @@
             <div class="text-center w-[300px]">
                 <fonta class="text-[34px]" :icon="['fas', 'book-open-reader']" />
             </div>
-            <div class="flex bg-[#001428] pe-3 hover:bg-[#0e243a] ps-2 cursor-pointer h-full items-center  gap-3">
-                <img src="../../assets/user.png" class="w-[40px]" alt="">
-                <div class="flex text-white flex-col">
-                    <span class="text-[13px]">{{ fullname }}</span>
-                    <span class="text-[10px] text-center">Super Admin</span>
+            <n-dropdown :options="options" @select="handleSelect">
+                <div class="flex bg-[#001428] pe-3 hover:bg-[#0e243a] ps-2 cursor-pointer h-full items-center  gap-3">
+                    <img src="../../assets/user.png" class="w-[40px]" alt="">
+                    <div class="flex text-white flex-col">
+                        <span class="text-[13px]">{{ fullname }}</span>
+                        <span class="text-[10px] text-center">Super Admin</span>
+                    </div>
                 </div>
-            </div>
+            </n-dropdown>
         </div>
 
         <n-space vertical>
-
-            <n-layout has-sider class="h-full shadow-[#c0c3c9] text-white min-h-full">
-                <n-layout-sider bordered collapse-mode="width" :collapsed-width="64" :width="300" :collapsed="collapsed"
-                    show-trigger @collapse="collapsed = true" @expand="collapsed = false"
-                    class="h-full bg-slate-900 shadow-[#c0c3c9] text-white min-h-full">
-
-                    <n-menu :inverted="true" class="h-[calc(100vh-50px)] text-red-500 min-h-full" :options="menuOptions"
-                        @update:value="handleUpdateValue" />
-
-                </n-layout-sider>
-                <n-layout class="overflow-auto scrollable-container bg-gray-300 p-3 h-[calc(100vh-50px)]">
-                    <span>
-                        <router-view>
-
-                        </router-view>
-                    </span>
-
-                </n-layout></n-layout>
-        </n-space>
+    <n-layout has-sider class="h-full shadow-[#c0c3c9] text-white min-h-full">
+      <n-layout-sider
+        bordered
+        collapse-mode="width"
+        :collapsed-width="64"
+        :width="300"
+        :collapsed="collapsed"
+        show-trigger
+        @collapse="collapsed = true"
+        @expand="collapsed = false"
+        class="h-full bg-slate-900 shadow-[#c0c3c9] text-white min-h-full"
+      >
+        <n-menu
+          :inverted="true"
+          class="h-[calc(100vh-50px)] text-red-500 min-h-full"
+          :options="menuOptions"
+          v-model:value="activeKey"
+          @update:value="handleUpdateValue"
+        />
+      </n-layout-sider>
+      <n-layout class="overflow-auto scrollable-container bg-gray-300 p-3 h-[calc(100vh-50px)]">
+        <span>
+          <router-view></router-view>
+        </span>
+      </n-layout>
+    </n-layout>
+  </n-space>
     </div>
 
 </template>
 
 <script setup>
 import { ref, onMounted, watch, h } from "vue";
-import { RouterLink, useRouter } from "vue-router"
+import { RouterLink, useRouter, useRoute } from "vue-router"
 import { useMessage } from "naive-ui"
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 const message = useMessage();
+const route = useRoute();
+const activeKey = ref(route.path);
 const fullname = ref("");
 const collapsed = ref(eval(localStorage.collapsedAdmin == null ? true : localStorage.getItem("collapsedAdmin")));
 let bool = Boolean(localStorage.collapsedAdmin == null ? true : localStorage.getItem("collapsedAdmin"));
@@ -51,84 +63,91 @@ watch(collapsed, (newval, oldval) => {
     localStorage.setItem("collapsedAdmin", newval)
 });
 const menuOptions = [
-    {
-        label: () => h(
+      {
+        label: () =>
+          h(
             RouterLink,
             {
-                to: "/superadmin/admin"
+              to: '/superadmin/admin',
             },
-            { default: () => "Adminlar" }
-        ),
-        key: "go-back-home",
-        icon: () => h(FontAwesomeIcon, { icon: ['fas', 'user-secret'] })
-    },
-    {
-        label: () => h(
+            { default: () => 'Adminlar' }
+          ),
+        key: '/superadmin/admin', // Key sifatida to'liq yo'l
+        icon: () => h(FontAwesomeIcon, { icon: ['fas', 'user-secret'] }),
+      },
+      {
+        label: () =>
+          h(
             RouterLink,
             {
-                to: "/superadmin/bookCategory"
+              to: '/superadmin/bookCategory',
             },
-            { default: () => "Kitob kategoriyalari" }
-        ),
-        key: "bookCategory",
-        icon: () => h(FontAwesomeIcon, { icon: ['f-solid', 'fa-book-atlas'] })
-    },
-
-    {
-        label: () => h(
+            { default: () => 'Kitob kategoriyalari' }
+          ),
+        key: '/superadmin/bookCategory',
+        icon: () => h(FontAwesomeIcon, { icon: ['f-solid', 'fa-book-atlas'] }),
+      },
+      {
+        label: () =>
+          h(
             RouterLink,
             {
-                to: "/superadmin/books"
+              to: '/superadmin/books',
             },
-            { default: () => "Kitoblar" }
-        ),
-        key: "books",
-        icon: () => h(FontAwesomeIcon, { icon: ['fas', 'book'] })
-    },
-    {
-        label: () => h(
+            { default: () => 'Kitoblar' }
+          ),
+        key: '/superadmin/books',
+        icon: () => h(FontAwesomeIcon, { icon: ['fas', 'book'] }),
+      },
+      {
+        label: () =>
+          h(
             RouterLink,
             {
-                to: "/superadmin/users"
+              to: '/superadmin/orders',
             },
-            { default: () => "Foydalanuvchilar" }
-        ),
-        key: "users",
-        icon: () => h(FontAwesomeIcon, { icon: ['fas', 'users'] })
-    },
-    {
-        label: () => h(
+            { default: () => 'Buyurtmalar' }
+          ),
+        key: '/superadmin/orders',
+        icon: () => h(FontAwesomeIcon, { icon: ['fas', 'cart-shopping'] }),
+      },
+      {
+        label: () =>
+          h(
             RouterLink,
             {
-                to: "/superadmin/login",
+              to: '/superadmin/users',
             },
-            { default: () => "Tizimdan chiqish", }
-        ),
-        key: "EXIT_system",
-        icon: () => h(FontAwesomeIcon, { icon: ['fas', 'arrow-right-to-bracket'], class: "text-red-800  rotate-180" }),
-        onclick: () => {
-           
-        },
-        props: {
-
-            onClick: async () => {
-               
-
+            { default: () => 'Foydalanuvchilar' }
+          ),
+        key: '/superadmin/users',
+        icon: () => h(FontAwesomeIcon, { icon: ['fas', 'users'] }),
+      },
+      {
+        label: () =>
+          h(
+            RouterLink,
+            {
+              to: '/superadmin/login',
             },
-            class: "hover:text-red-800"
+            { default: () => 'Tizimdan chiqish' }
+          ),
+        key: '/superadmin/login',
+        icon: () =>
+          h(FontAwesomeIcon, {
+            icon: ['fas', 'arrow-right-to-bracket'],
+            class: 'text-red-800 rotate-180',
+          }),
+      },
+    ];
 
-        }
-
-    },
-
-];
 let handleUpdateValue = async function (key, item) {
-    if (key == "EXIT_system") {
+    if (key == "/superadmin/login") {
         let data = await fetchSuperAdmin("/superadmin/signOut", "GET", null, router);
         localStorage.removeItem('token');
         return message.success("Siz tizimdan chiqdingiz");
     }
-   
+
 };
 const callBackend = async () => {
     try {
@@ -143,8 +162,27 @@ const callBackend = async () => {
 }
 onMounted(async () => {
     await callBackend();
-})
+});
+const options = [
+    {
+        label: "Tizimdan chiqish",
+        key: "exit",
+        icon: () => h(FontAwesomeIcon, { icon: ['fas', 'arrow-right-to-bracket'], class: "text-red-800  rotate-180" }),
+
+    },
+
+];
+const handleSelect = async (key) => {
+    if (String(key) == "exit") {
+        await handleUpdateValue("/superadmin/login");
+        router.push("/superadmin/login");
+    }};
+    watch(
+      () => route.path,
+      (newPath) => {
+        activeKey.value = newPath;
+      }
+    );
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
