@@ -2,9 +2,12 @@
     <n-card>
         <div class="container mx-auto p-4">
             <h1 class="text-2xl font-semibold mb-4">Buyurtmalar</h1>
-            <div class="flex justify-end mb-4 w-[300px]">
-                <n-select :options="statusOptions" @update:value="changeStatus(`order.order_id`, $event)"></n-select>
+            <div class="max-w-[230px] mb-5 p-4 bg-white flex flex-col gap-3 shadow-lg rounded-lg">
+                <b>Statusni belgilang</b>
+                <n-select v-model:value="filter" :options="statusFetchOptions" @update:value="fetchOrders"
+                    class="w-full p-2   rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></n-select>
             </div>
+
             <div v-if="loading" class="flex justify-center items-center h-20">
                 <span class="text-lg">Yuklanmoqda...</span>
             </div>
@@ -51,10 +54,18 @@
                                 {{ new Date(order.created_at).toLocaleString() }}
                             </td>
 
-                            <td class="border border-gray-300 px-4 py-2 w-[130px]">
-                                <n-select :value="order.status" :options="statusOptions"
-                                    @update:value="changeStatus(order.order_id, $event)" class="w-full">
-                                </n-select>
+                            <td class="border border-gray-300 py-2 w-[130px]">
+
+                                <div class="w-full justify-center">
+                                    <n-dropdown :options="options" @select="changeStatus(order.order_id, $event)">
+                                        <button
+                                            class="flex justify-center text-center mx-auto items-center text-green-600 bg-white p-2 rounded-[50%] hover:bg-gray-200 transition duration-200">
+                                            <i class="fas fa-pen text-center"></i>
+
+                                        </button>
+
+                                    </n-dropdown>
+                                </div>
                             </td>
 
                         </tr>
@@ -70,15 +81,18 @@
     </n-card>
 </template>
 <script setup>
-import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
+import { ref, h, watch, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import { useMessage } from "naive-ui";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
 const message = useMessage();
 const orders = ref([]);
 const pagination = ref({ page: 1, limit: 10, totalPages: 1 });
 const loading = ref(false);
 const filter = ref("*");
 const router = useRouter();
+const route = useRoute();
 
 const fetchOrders = async () => {
     loading.value = true;
@@ -120,14 +134,18 @@ const fetchOrders = async () => {
     }
 };
 
-onMounted(async () => await fetchOrders());
+onMounted(async () => {
+    if (route.query.page) {
+        pagination.value.page = Number(route.query.page) || 1;
+    }
+    if (route.query.filter) {
+        filter.value = String(route.query.filter) || 1;
+    }
+    await fetchOrders()
+});
 
 
-const statusOptions = [
-    { label: 'Kutilmoqda', value: 'pending' },
-    { label: 'Yetkazib berildi', value: 'accepted' },
-    { label: 'Bekor qilindi', value: 'rejected' }
-];
+
 const statusFetchOptions = [
     { label: 'Hammasi', value: '*' },
 
@@ -136,6 +154,7 @@ const statusFetchOptions = [
     { label: 'Bekor qilindi', value: 'rejected' }
 ];
 const changeStatus = async (order_id, status) => {
+
     if (status == 'accepted') {
         try {
             let response = await fetchAdmin(`/editOrder/${order_id}`, "PUT", { status }, router);
@@ -171,7 +190,7 @@ const changeStatus = async (order_id, status) => {
             }
 
             else {
-                console.error("Error changing status:", response);
+                console.error("Error changing status:", response.status);
             }
         } catch (error) {
             console.error("Error changing status:", error);
@@ -197,6 +216,39 @@ const changeStatus = async (order_id, status) => {
         }
     }
 };
+
+
+const options = [
+    {
+        label: "Kutilmoqda",
+        key: "pending",
+        icon: () => h(FontAwesomeIcon, { icon: ['fas', 'clock'], class: "text-yellow-500 rotate-45" })
+    },
+    {
+        label: "Yetkazib berildi",
+        key: "accepted",
+        icon: () => h(FontAwesomeIcon, { icon: ['fas', 'check-circle'], class: "text-green-600 rotate-0" })
+    },
+    {
+        label: "Bekor qilindi",
+        key: "rejected",
+        icon: () => h(FontAwesomeIcon, { icon: ['fas', 'ban'], class: "text-red-600 rotate-0" })
+    }
+];
+watch(pagination, (newVal) => {
+    const { page } = newVal;
+    router.push({
+        path: route.path,
+        query: { ...route.query, page: Number(page) },
+    });
+}, { deep: true });
+watch(filter, (newVal) => {
+    let  filter1  = newVal;
+    router.push({
+        path: route.path,
+        query: { ...route.query, filter: String(filter1) },
+    });
+}, { deep: true });
 </script>
 
 <style></style>
