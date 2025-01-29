@@ -19,6 +19,7 @@ router.delete("/:id", verify, async (req, res) => {
     const data = await pool.query("delete from book where id = $1", [id]);
     return res.status(200).send({ message: "Deleted true" });
   } catch (error) {
+    if(error.code == '23503')return res.status(400).send({ error: "Kitob  mavjud vamijozga yetgailgan" });
     console.log(error);
     res.status(500).send({ error: "Server error" });
   }

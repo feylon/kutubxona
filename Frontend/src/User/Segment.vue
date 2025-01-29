@@ -60,12 +60,13 @@
                                     class="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25">
                                 </div>
                             </div>
-                            <a href="#!">
+                            <div v-if="!i.select" @click="Addorder(i.book_id, j, i.name, i.price);"
+                                class="cursor-pointer">
                                 <div
                                     class="text-xs absolute top-0 right-0 bg-blue-600 px-4 py-2 text-white mt-3 mr-3 hover:bg-white hover:text-blue-600 transition duration-200 ease-in-out">
                                     <font-awesome-icon :icon="['fas', 'bag-shopping']" /> Buyurtma qilish
                                 </div>
-                            </a>
+                            </div>
                         </div>
                         <div class="px-6 py-4 mb-auto">
                             <div href="#"
@@ -83,12 +84,13 @@
                             </span>
 
                             <button v-if="!i.select" @click="Addorder(i.book_id, j, i.name, i.price);"
-                                class="px-6 py-2 min-w-[120px] text-center text-blue-600 border border-blue-600 rounded hover:bg-blue-600 hover:text-white active:bg-indigo-500 focus:outline-none focus:ring">
-                                <font-awesome-icon :icon="['fas', 'bag-shopping']" />
+                                class="px-6 py-2 min-w-[120px] text-center text-blue-600 border border-blue-600 rounded-full transition-all duration-300 ease-in-out transform hover:bg-blue-600 hover:text-white active:focus:outline-none focus:outline-none focus:ring hover:scale-105">
+                                <font-awesome-icon class="text-xl " :icon="['fas', 'bag-shopping']" />
                             </button>
-                            <button v-else
-                                class="px-6 py-2 min-w-[120px] text-center text-blue-600 border border-blue-600 rounded-full transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-600 hover:text-white active:bg-indigo-500 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
-                                Tanlandi
+                            <button v-else @click="RemoveOrder(i.book_id, j);"
+                                class="px-6 py-2 min-w-[120px] text-center text-red-600 border border-red-600 rounded-full transition-all duration-300 ease-in-out transform hover:scale-105 hover:text-white active:focus:outline-none focus:ring focus:ring-red-500 focus:ring-opacity-50">
+                                <i class="fas fa-trash text-red-600 text-xl hover:text-red-800 cursor-pointer"></i>
+
                             </button>
 
                         </div>
@@ -100,7 +102,7 @@
 
                 </div>
                 <div class="flex mt-3 justify-center w-full">
-                    <button v-if="pagination.hasNextPage" @click="page++;callBook()" type="button"
+                    <button v-if="pagination.hasNextPage" @click="page++; callBook()" type="button"
                         class="px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold rounded-full transition-transform transform-gpu hover:-translate-y-1 hover:shadow-lg">
                         Ko'proq ko'rish
                     </button>
@@ -124,7 +126,7 @@ console.log(user.orders);
 const page = ref(1);
 const limit = 1;
 const router = useRouter();
-const pagination = ref( {
+const pagination = ref({
     totalRecords: 1,
     totalPages: 1,
     currentPage: 1,
@@ -141,7 +143,11 @@ const callBook = async () => {
         let res = await fetchUser(`/book/getbookbyid/${id}/${page.value}/${limit}`)
         if (res.status == 200) {
             res = await res.json();
-            topBooks.value.push(...res.data);
+            res.data.forEach((item) => {
+                const isBookExists = user.orders.some(order => order.book_id === item.book_id);
+
+                topBooks.value.push({ ...item, select: isBookExists });
+            });
             console.log(topBooks.value)
             isLoading.value = false;
             pagination.value = res.pagination;
@@ -185,6 +191,9 @@ const Addorder = async (id, index, name, price) => {
     console.log(id);
     topBooks.value[index].select = true;
 };
-
+const RemoveOrder = async (id, index) => {
+    user.orders = user.orders.filter(order => order.book_id !== id);
+    topBooks.value[index].select = false;
+}
 </script>
 <style scoped></style>

@@ -76,7 +76,7 @@
         <p class="text-center text-white font-medium">&copy; 2025 Company Ltd. All rights reservered.</p>
     </footer>
 
-    <div>
+    <div v-if="user.orders.length" class="fixed bottom-6 right-6  bg-blue-500 text-white rounded-[50%] w-[60px] h-[60px] shadow-lg hover:bg-blue-600 transition duration-300">
         <button @click="router.push('/orders')"
         class="fixed bottom-6 right-6  bg-blue-500 text-white rounded-[50%] w-[60px] h-[60px] shadow-lg hover:bg-blue-600 transition duration-300">
         <div class="relative flex flex-col">
@@ -158,6 +158,8 @@ const getProfile = async () => {
             return;
         }
         user.isAuth = false;
+        localStorage.removeItem("orders");
+        localStorage.removeItem("token");
 
     } catch (error) {
         console.log(error)
