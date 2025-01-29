@@ -6,7 +6,9 @@
         @positive-click="submitCallback" @negative-click="cancelCallback" />
 
     <div>
-
+        <div v-if="isLoading">
+      <Loader />
+    </div>
         <div class="w-full mt-5  bg-white">
             <div class="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16">
 
@@ -110,11 +112,13 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
+import Loader from "./../Loader.vue"
 import { User } from "../../Pinia";
 import { useRouter } from "vue-router";
 const showModal = ref(false)
 const user = User();
 const topBooks = ref([]);
+const isLoading = ref(true);
 const web_url1 = window.web_url;
 console.log(user.orders);
 const router = useRouter();
@@ -128,6 +132,7 @@ const callBook = async () => {
         if (res.status == 200) {
             res = await res.json();
             topBooks.value = res;
+            isLoading.value = false;
             console.log(topBooks.value);
         }
     } catch (error) {

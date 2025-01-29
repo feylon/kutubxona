@@ -17,6 +17,9 @@ import getorder from "./Order/getOrder.js";
 import deleteOrder from "./Order/deleteOrder.js"
 import EditOrder from "./Order/EditOrder.js"
 
+// COUNT
+import count from "./Count/count.js";
+
 export default [
   //   Auth user
   { path: "/register", component: register },
@@ -35,7 +38,10 @@ export default [
   {path : "/book/addorder", component : addorder},
   {path : "/book/getorder", component : getorder},
   {path : "/book/deleteOrder", component : deleteOrder},
-  {path : "/book/EditOrder", component : EditOrder}
+  {path : "/book/EditOrder", component : EditOrder},
+
+  // COUNT
+  {path : "/count", component : count}
 
 
 
