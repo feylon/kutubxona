@@ -3,41 +3,73 @@ import pool from "../../../functions/database.js";
 import { Router } from "express";
 import Joi from "joi";
 
-const Schema = Joi.string().uuid().required();
 const router = Router();
 
-router.get("/:id", async (req, res) => {
-  const schema = Schema.validate(req.params.id);
-  const { value, error } = schema;
-
-  if (error) return res.status(400).send({ error: error.message });
-  try {
-    const data = await pool.query(`Select
-book.id as book_id,
-bc.id as bc_id,
-book.name,
-false as select,
-book.picture,
-book.price as price,
-bc.name as category_name,
-book.picture as picture
-from book
-inner join bookcategory bc on  bc.id = book.category 
-where book.picture is not null and book.status and bc.id = $1
-order by book.name
-limit 5
-  
-`,[value]);
-
-return res.status(200).send(data.rows);
-  } catch (error) {
-    console.log(error)
-return res.status(200).send({error : "Server error"});
-    
-  }
-
-  return res.send({ id:value });
+const schema = Joi.object({
+  id: Joi.string().uuid().required(),
+  page: Joi.number().integer().min(1).default(1),
+  limit: Joi.number().integer().min(1).default(10),
 });
+
+router.get("/:id/:page/:limit", async (req, res) => {
+  const { error, value } = schema.validate(req.params);
+  if (error) return res.status(400).send({ error: error.message });
+
+  try {
+    const { id, page, limit } = value;
+    const offset = (page - 1) * limit;
+
+    const booksQuery = `
+      SELECT
+        book.id AS book_id,
+        bc.id AS bc_id,
+        book.name,
+        false AS select,
+        book.picture,
+        book.price AS price,
+        bc.name AS category_name,
+        book.picture AS picture
+      FROM book
+      INNER JOIN bookcategory bc ON bc.id = book.category 
+      WHERE book.picture IS NOT NULL 
+      AND book.status 
+      AND bc.id = $1
+      ORDER BY book.name
+      LIMIT $2 OFFSET $3
+    `;
+
+    const countQuery = `
+      SELECT COUNT(*) AS total
+      FROM book
+      INNER JOIN bookcategory bc ON bc.id = book.category 
+      WHERE book.picture IS NOT NULL 
+      AND book.status 
+      AND bc.id = $1
+    `;
+
+    const booksResult = await pool.query(booksQuery, [id, limit, offset]);
+    const countResult = await pool.query(countQuery, [id]);
+
+    const totalRecords = parseInt(countResult.rows[0]?.total || 0);
+    const totalPages = Math.ceil(totalRecords / limit);
+
+    res.status(200).json({
+      data: booksResult.rows,
+      pagination: {
+        totalRecords,
+        totalPages,
+        currentPage: page,
+        limit,
+        hasNextPage: page < totalPages,
+        hasPrevPage: page > 1,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Server error" });
+  }
+});
+
 export default router;
 
 /**

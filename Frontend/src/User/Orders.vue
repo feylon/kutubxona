@@ -201,6 +201,7 @@ const removeOrder = async (id)=>{
     }
 }
 onMounted(async () => callBackend());
+window.scrollTo(0, 0);
 const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
     return new Date(dateString).toLocaleDateString() + ' ' + new Date(dateString).toLocaleTimeString();

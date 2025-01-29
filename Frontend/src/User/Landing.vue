@@ -22,38 +22,33 @@
 
             <div class="w-full rounded-md  flex justify-start flex-col  items-start mt-5 p-[1px] pt-4  bg-blue-500   ">
                 <div class="w-[75%] flex mx-auto justify-between">
-                    <div class="max-w-[250px] flex justify-center flex-col">
-                        <span class="font-bold text-white text-center text-[40px]">
-                            <NumberAnimation :ref="Math.trunc((Math.random() * 10000))" :from="1"
-                                :to="Math.trunc((Math.random() * 10000))" :format="(value) => value.toLocaleString()"
-                                :duration="2" autoplay easing="linear" />
-                        </span>
-                        <span class="text-white text-[20px] border-t-[1px]  text-center">Yuklangan kitoblar soni</span>
-                    </div>
+        <div class="max-w-[250px] flex justify-center flex-col">
+            <span class="font-bold text-white text-center text-[40px]">
+                <NumberAnimation :from="1" :to="count.books"
+                    :format="(value) => Math.floor(value)" 
+                    :duration="2" autoplay easing="linear" />
+            </span>
+            <span class="text-white text-[20px] border-t-[1px] text-center">Yuklangan kitoblar soni</span>
+        </div>
 
+        <div class="max-w-[250px] flex justify-center flex-col">
+            <span class="font-bold text-white text-center text-[40px]">
+                <NumberAnimation :from="1" :to="count.users"
+                    :format="(value) => Math.floor(value)" 
+                    :duration="2" autoplay easing="linear" />
+            </span>
+            <span class="text-white text-[20px] border-t-[1px] text-center">Ro'yxatdan o'tganlar soni</span>
+        </div>
 
-                    <div class="max-w-[250px] flex justify-center flex-col">
-                        <span class="font-bold text-white text-center text-[40px]">
-                            <NumberAnimation :ref="Math.trunc((Math.random() * 10000))" :from="1"
-                                :to="Math.trunc((Math.random() * 10000))" :format="(value) => value.toLocaleString()"
-                                :duration="2" autoplay easing="linear" />
-                        </span>
-                        <span class="text-white text-[20px] border-t-[1px]  text-center">Ro'yxatdan o'tganlar
-                            soni</span>
-                    </div>
-
-
-
-                    <div class="max-w-[250px] flex justify-center flex-col">
-                        <span class="font-bold text-white text-center text-[40px]">
-                            <NumberAnimation :ref="Math.trunc((Math.random() * 10000))" :from="1"
-                                :to="Math.trunc((Math.random() * 10000))" :format="(value) => value.toLocaleString()"
-                                :duration="2" autoplay easing="linear" />
-                        </span>
-                        <span class="text-white text-[20px] border-t-[1px]  text-center">Yetgazilgan kitoblar
-                            soni</span>
-                    </div>
-                </div>
+        <div class="max-w-[250px] flex justify-center flex-col">
+            <span class="font-bold text-white text-center text-[40px]">
+                <NumberAnimation :from="count.orders" :to="count.books"
+                    :format="(value) => Math.floor(value)" 
+                    :duration="2" autoplay easing="linear" />
+            </span>
+            <span class="text-white text-[20px] border-t-[1px] text-center">Yetkazilgan kitoblar soni</span>
+        </div>
+    </div>
                 <div style="border-radius: 67% 25% 25% 25% / 77% 0% 0% 0%;"
                     class="min-w-full flex  items-end gap-[130px] justify-start mt-[10px] flex-col h-full bg-white">
                     <div class="mt-[50px]">
@@ -194,7 +189,20 @@ import Segment from './Segment.vue';
 import gsap from "gsap";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { useMessage } from 'naive-ui';
+const count = ref({books: '29', users: '5', orders: '26'});
+const countFunction = async () => {
+    try {
+        let res = await fetchUser('/count')
+        if (res.status == 200) {
+            res = await res.json();
+            count.value = res;
+            console.log(count.value);
+        }
+    } catch (error) {
+        console.log(error)
 
+    }
+};
 const router = useRouter();
 const web_url1 = window.web_url;
 const message = useMessage();
@@ -266,6 +274,7 @@ onMounted(async () => {
     gsap.to(registr.value, { x: -0, duration: 2 });
     window.addEventListener("scroll", handleScroll);
     await getProfile();
+    await countFunction();
 });
 const  handleSelect = async (key) => {
         if(String(key) == "exit"){

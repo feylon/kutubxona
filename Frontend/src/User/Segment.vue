@@ -7,8 +7,8 @@
 
     <div>
         <div v-if="isLoading">
-      <Loader />
-    </div>
+            <Loader />
+        </div>
         <div class="w-full mt-5  bg-white">
             <div class="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16">
 
@@ -87,9 +87,9 @@
                                 <font-awesome-icon :icon="['fas', 'bag-shopping']" />
                             </button>
                             <button v-else
-        class="px-6 py-2 min-w-[120px] text-center text-blue-600 border border-blue-600 rounded-full transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-600 hover:text-white active:bg-indigo-500 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
-    Tanlandi
-</button>
+                                class="px-6 py-2 min-w-[120px] text-center text-blue-600 border border-blue-600 rounded-full transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-600 hover:text-white active:bg-indigo-500 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                                Tanlandi
+                            </button>
 
                         </div>
                     </div>
@@ -100,7 +100,7 @@
 
                 </div>
                 <div class="flex mt-3 justify-center w-full">
-                    <button
+                    <button v-if="pagination.hasNextPage" @click="page++;callBook()" type="button"
                         class="px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold rounded-full transition-transform transform-gpu hover:-translate-y-1 hover:shadow-lg">
                         Ko'proq ko'rish
                     </button>
@@ -121,27 +121,41 @@ const topBooks = ref([]);
 const isLoading = ref(true);
 const web_url1 = window.web_url;
 console.log(user.orders);
+const page = ref(1);
+const limit = 1;
 const router = useRouter();
+const pagination = ref( {
+    totalRecords: 1,
+    totalPages: 1,
+    currentPage: 1,
+    limit: 3,
+    hasNextPage: false,
+    hasPrevPage: false
+})
 const props = defineProps({
     obj: Object
 });
 const { id, name } = props.obj;
 const callBook = async () => {
     try {
-        let res = await fetchUser('/book/getBookById/' + id)
+        let res = await fetchUser(`/book/getbookbyid/${id}/${page.value}/${limit}`)
         if (res.status == 200) {
             res = await res.json();
-            topBooks.value = res;
+            topBooks.value.push(...res.data);
+            console.log(topBooks.value)
             isLoading.value = false;
-            console.log(topBooks.value);
+            pagination.value = res.pagination;
+            console.log(res);
         }
     } catch (error) {
         console.log(error)
 
     }
-}
+};
+
 onMounted(async () => {
     await callBook();
+
 });
 
 
@@ -162,9 +176,9 @@ const Addorder = async (id, index, name, price) => {
     user.orders.push({
         book_id: id,
         amount: 0,
-        active: false, 
-        name : name,
-        price : price
+        active: false,
+        name: name,
+        price: price
     });
 
     console.log(user.orders);
