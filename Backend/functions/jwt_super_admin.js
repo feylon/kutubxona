@@ -5,7 +5,7 @@ configDotenv();
 
 async function sign(id) {
   const payload = { id };
-
+  console.log(payload)
   const expiresIn = "4h";
   const token = JWT.sign(payload, process.env.JWTSUPERADMIN, { expiresIn });
 

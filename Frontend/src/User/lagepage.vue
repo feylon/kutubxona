@@ -8,7 +8,7 @@
             </RouterLink>
             <nav class="flex justify-center flex-wrap gap-6 text-white font-medium">
                 <a href=# class="hover:text-gray-200 cursor-pointer">Bosh sahifa</a>
-                <a href=# class="hover:gray-200 cursor-pointer">Biz haqimizda</a>
+                <router-link to="/orders" class="hover:gray-200 cursor-pointer">Buyurtmalar</router-link>
                 <a href=# class="hover:text-gray-200 cursor-pointer">Xizmatlar</a>
                 <a href=# class="hover:text-gray-200 cursor-pointer">Media</a>
                 <a href=# class="hover:text-gray-200 cursor-pointer">Foto jamlanma</a>
@@ -48,13 +48,13 @@
     <footer class="flex h-full min-w-[100wh] mx-auto flex-col bg-blue-500 space-y-10 justify-center m-10">
 
         <nav class="flex justify-center flex-wrap gap-6 text-white font-medium">
-            <div class="hover:text-gray-200 cursor-pointer">Home</div>
-            <div class="hover:gray-200 cursor-pointer">About</div>
-            <div class="hover:text-gray-200 cursor-pointer">Services</div>
-            <div class="hover:text-gray-200 cursor-pointer">Media</div>
-            <div class="hover:text-gray-200 cursor-pointer">Gallery</div>
-            <div class="hover:text-gray-200 cursor-pointer">Contact</div>
-        </nav>
+                <a href=# class="hover:text-gray-200 cursor-pointer">Bosh sahifa</a>
+                <router-link to="/orders" class="hover:gray-200 cursor-pointer">Buyurtmalar</router-link>
+                <a href=# class="hover:text-gray-200 cursor-pointer">Xizmatlar</a>
+                <a href=# class="hover:text-gray-200 cursor-pointer">Media</a>
+                <a href=# class="hover:text-gray-200 cursor-pointer">Foto jamlanma</a>
+                <a href=# class="hover:text-gray-200 cursor-pointer">Kontakt</a>
+            </nav>
 
         <div class="flex justify-center space-x-5">
             <div>
@@ -154,6 +154,8 @@ const getProfile = async () => {
             profile.value = res;
             user.isAuth = true;
             fullname.value = res.data.fullname;
+            
+            user.username = res.data.username;
             console.log("fullname ", fullname.value)
             return;
         }

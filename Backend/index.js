@@ -103,7 +103,7 @@ const server = http.createServer(app);
 const startServer = async () => {
   await checkDatabaseConnection();
   server.listen(4100,  () => {
-    console.log("Server ", server.address().port, "da ishga tushdi");
+    console.log("Server ", "192.168.137.76", server.address().port, "da ishga tushdi");
   });
 };
 startServer();

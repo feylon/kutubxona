@@ -31,7 +31,7 @@
                             <th class="border border-gray-300 px-4 py-2">Narxi</th>
                             <th class="border border-gray-300 px-4 py-2">Umumiy narx</th>
                             <th class="border border-gray-300 px-4 py-2">Murojaat qilingan vaqt</th>
-                            <th class="border border-gray-300 px-4 py-2 w-[100px]">O'zgartirish</th>
+                            <!-- <th class="border border-gray-300 px-4 py-2 w-[100px]">O'zgartirish</th> -->
 
                         </tr>
                     </thead>
@@ -59,11 +59,11 @@
                                 {{ new Date(order.created_at).toLocaleString() }}
                             </td>
 
-                            <td class="border border-gray-300 px-4 py-2 w-[130px]">
+                            <!-- <td class="border border-gray-300 px-4 py-2 w-[130px]">
                                 <n-select :value="order.status" :options="statusOptions"
                                     @update:value="changeStatus(order.order_id, $event)" class="w-full">
                                 </n-select>
-                            </td>
+                            </td> -->
 
                         </tr>
                     </tbody>

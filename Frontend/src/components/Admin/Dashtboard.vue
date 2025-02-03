@@ -4,13 +4,14 @@
             <div class="text-center w-[300px]">
                 <fonta class="text-[34px]" :icon="['fas', 'book-open-reader']" />
             </div>
+            <n-dropdown :options="options" @select="handleSelect">
             <div class="flex bg-[#001428] pe-3 hover:bg-[#0e243a] ps-2 cursor-pointer h-full items-center  gap-3">
                 <img src="../../assets/user.png" class="w-[40px]" alt="">
                 <div class="flex text-white flex-col">
                     <span class="text-[13px]">{{ fullname }}</span>
                     <span class="text-[10px] text-center">Admin</span>
                 </div>
-            </div>
+            </div></n-dropdown>
         </div>
 
         <n-space vertical>
@@ -79,7 +80,7 @@ const menuOptions = [
         label: () => h(
             RouterLink,
             {
-                to: "/admin/login",
+                to: "/",
             },
             { default: () => "Tizimdan chiqish", }
         ),
@@ -123,7 +124,22 @@ const callBackend = async () => {
 }
 onMounted(async () => {
     await callBackend();
-})
+});
+const options = [
+    {
+        label: "Tizimdan chiqish",
+        key: "exit",
+        icon: () => h(FontAwesomeIcon, { icon: ['fas', 'arrow-right-to-bracket'], class: "text-red-800  rotate-180" }),
+
+    },
+
+];
+const handleSelect = async (key) => {
+    if (String(key) == "exit") {
+        await handleUpdateValue("EXIT_system");
+        router.push("/");
+    }};
+  
 </script>
 
 <style scoped></style>

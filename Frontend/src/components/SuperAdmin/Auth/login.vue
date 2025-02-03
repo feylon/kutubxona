@@ -87,7 +87,7 @@ const loginfunc = async () => {
             message.success("Siz tizimga kirdingiz");
             login.value = "";
             password.value = "";
-            router.push("/superadmin/")
+            router.push("/superadmin/admin")
             return null;
 
         }

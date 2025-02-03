@@ -5,6 +5,7 @@ import  SuperAdminlogin from "../src/components/SuperAdmin/Auth/login.vue"
 const router = createRouter({
     history : createWebHashHistory(),
     routes : [
+       
         {path : "/superadmin/login", component : SuperAdminlogin},
         {path : "/superadmin/", component : ()=>import ("../src/components/SuperAdmin/Dashtboard.vue"),
             children : [
@@ -44,9 +45,14 @@ const router = createRouter({
 
             ]
         },
-
+        {
+            path: '/:catchAll(.*)', 
+            name: 'NotFound',
+            component: ()=>import("../src/User/lagepage.vue")
+          },
 
     ]
+    
 }) ;
 
 export default router;

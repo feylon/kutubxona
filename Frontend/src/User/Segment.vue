@@ -124,7 +124,7 @@ const isLoading = ref(true);
 const web_url1 = window.web_url;
 console.log(user.orders);
 const page = ref(1);
-const limit = 1;
+const limit = 6;
 const router = useRouter();
 const pagination = ref({
     totalRecords: 1,

@@ -96,7 +96,7 @@ const loginfunc = async () => {
             message.success("Siz tizimga kirdingiz");
             login.value = "";
             password.value = "";
-            router.push("/admin")
+            router.push("/admin/orders")
             return null;
 
         }

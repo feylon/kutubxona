@@ -21,6 +21,7 @@ try {
     const passwordRow = data.rows[0].password;
     const {id} = data.rows[0];
     if(check_hash(password, passwordRow)){
+        console.log(id)
        let token =  await sign(id);
        return res.status(201).send({token})
     }

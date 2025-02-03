@@ -175,7 +175,7 @@ const options = [
 const handleSelect = async (key) => {
     if (String(key) == "exit") {
         await handleUpdateValue("/superadmin/login");
-        router.push("/superadmin/login");
+        router.push("/");
     }};
     watch(
       () => route.path,

@@ -44,7 +44,7 @@
                                     berildi</span>
                                 <span class="bg-red-500 text-white gap-3 rounded-md p-2"
                                     v-if="order.status == 'rejected'">
-                                    <i class="fas fa-check me-3"></i>Bekor qilindi</span>
+                                    <i class="fas fa-ban me-3"></i>Bekor qilindi</span>
 
                             </td>
                             <td class="border border-gray-300 px-4 py-2">{{ order.amount }}</td>
