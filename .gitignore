@@ -1,3 +1,9 @@
-Backend/node_modules
-Backend/uploads/Books
-Backend/uploads/Pictures
+node_modules/
+dist/
+.env
+*.log
+.DS_Store
+backend/uploads/covers/*
+backend/uploads/books/*
+!backend/uploads/covers/.gitkeep
+!backend/uploads/books/.gitkeep

@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: kutubxona-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: kutubxona
+      POSTGRES_USER: kutubxona
+      POSTGRES_PASSWORD: kutubxona
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - kutubxona_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kutubxona -d kutubxona"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  kutubxona_pgdata:
