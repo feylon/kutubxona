@@ -4,6 +4,8 @@ import { validate } from "../lib/validate.js";
 import { paginationSchema } from "../lib/pagination.js";
 import { authenticate, optionalAuth, requireAdmin } from "../middleware/auth.js";
 import * as books from "../services/book.service.js";
+import { uploadCover, uploadPdf, publicUrl, removeUploaded } from "../lib/upload.js";
+import { badRequest } from "../lib/errors.js";
 
 export const bookRouter = Router();
 
@@ -63,3 +65,31 @@ bookRouter.delete("/:id", authenticate, requireAdmin, validate(idSchema, "params
   await books.deleteBook(req.valid.params.id);
   res.status(204).end();
 });
+
+bookRouter.post(
+  "/:id/cover",
+  authenticate,
+  requireAdmin,
+  validate(idSchema, "params"),
+  uploadCover.single("cover"),
+  async (req, res) => {
+    if (!req.file) throw badRequest("Muqova fayli yuborilmadi");
+    const book = await books.getBook(req.valid.params.id, { includeInactive: true });
+    removeUploaded(book.coverUrl);
+    res.json(await books.updateBook(book.id, { coverUrl: publicUrl("covers", req.file.filename) }));
+  },
+);
+
+bookRouter.post(
+  "/:id/file",
+  authenticate,
+  requireAdmin,
+  validate(idSchema, "params"),
+  uploadPdf.single("file"),
+  async (req, res) => {
+    if (!req.file) throw badRequest("PDF fayl yuborilmadi");
+    const book = await books.getBook(req.valid.params.id, { includeInactive: true });
+    removeUploaded(book.fileUrl);
+    res.json(await books.updateBook(book.id, { fileUrl: publicUrl("books", req.file.filename) }));
+  },
+);

@@ -2,6 +2,7 @@ import { Op } from "sequelize";
 import { Book, Category } from "../models/index.js";
 import { notFoundError } from "../lib/errors.js";
 import { paginate, paged } from "../lib/pagination.js";
+import { removeUploaded } from "../lib/upload.js";
 
 const withCategory = { include: [{ model: Category, as: "category", attributes: ["id", "name", "slug"] }] };
 
@@ -61,5 +62,7 @@ export const updateBook = async (id, data) => {
 export const deleteBook = async (id) => {
   const book = await getBook(id, { includeInactive: true });
   await book.destroy();
+  removeUploaded(book.coverUrl);
+  removeUploaded(book.fileUrl);
   return book;
 };

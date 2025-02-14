@@ -1,5 +1,3 @@
-const map = { "o'": "o", "g'": "g", "ʻ": "", "’": "", "'": "", sh: "sh", ch: "ch" };
-
 export const slugify = (text) =>
   String(text)
     .toLowerCase()
@@ -9,5 +7,3 @@ export const slugify = (text) =>
     .replace(/[̀-ͯ]/g, "")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "") || "item";
-
-export { map as _slugMap };
