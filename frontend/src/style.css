@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+
+  --color-paper: #f7f2ea;
+  --color-paper-2: #efe7da;
+  --color-cream: #fbf8f3;
+  --color-ink: #1b1611;
+  --color-ink-2: #2b2520;
+  --color-ink-3: #4a423a;
+  --color-muted: #7a6f64;
+  --color-line: #e2d8c9;
+  --color-accent: #c2410c;
+  --color-accent-2: #ea580c;
+  --color-gold: #d4a017;
+  --color-sage: #3f6f5a;
+
+  --shadow-card: 0 1px 2px rgb(27 22 17 / 0.06), 0 12px 32px -12px rgb(27 22 17 / 0.25);
+  --shadow-lift: 0 24px 48px -16px rgb(27 22 17 / 0.35);
+
+  --animate-fade-up: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: color-mix(in oklab, var(--color-accent) 25%, transparent); }
+  h1, h2, h3, .font-display { font-family: var(--font-display); }
+  input, select, textarea { font: inherit; }
+}
+
+@layer components {
+  .container-x { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
+
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 select-none disabled:opacity-50 disabled:pointer-events-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent; }
+  .btn-primary { @apply btn bg-ink text-paper hover:bg-ink-2 hover:-translate-y-px active:translate-y-0; }
+  .btn-accent { @apply btn bg-accent text-white hover:bg-accent-2 hover:-translate-y-px active:translate-y-0 shadow-[0_8px_20px_-8px_rgb(194_65_12/0.6)]; }
+  .btn-ghost { @apply btn bg-transparent text-ink hover:bg-ink/5; }
+  .btn-outline { @apply btn border border-line bg-white/60 text-ink hover:border-ink hover:bg-white; }
+  .btn-sm { @apply px-3.5 py-1.5 text-xs; }
+  .btn-danger { @apply btn bg-red-600 text-white hover:bg-red-700; }
+
+  .input { @apply w-full rounded-xl border border-line bg-white/80 px-4 py-2.5 text-sm text-ink placeholder:text-muted/70 transition focus:border-ink focus:outline-none focus:ring-4 focus:ring-ink/5; }
+  .label { @apply mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted; }
+  .card { @apply rounded-2xl border border-line/80 bg-cream shadow-card; }
+  .chip { @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-white/70 px-3 py-1 text-xs font-semibold text-ink-3 transition hover:border-ink hover:text-ink; }
+  .chip-active { @apply border-ink bg-ink text-paper hover:text-paper; }
+  .eyebrow { @apply text-xs font-bold uppercase tracking-[0.2em] text-accent; }
+  .table-head { @apply text-left text-[11px] font-bold uppercase tracking-wider text-muted; }
+}
+
+@utility text-balance { text-wrap: balance; }
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) transparent;
+}
