@@ -1,11 +1,20 @@
-const money = new Intl.NumberFormat("uz-UZ", { maximumFractionDigits: 0 });
-const date = new Intl.DateTimeFormat("uz-UZ", { day: "2-digit", month: "short", year: "numeric" });
-const dateTime = new Intl.DateTimeFormat("uz-UZ", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
+const MONTHS = ["yan", "fev", "mar", "apr", "may", "iyn", "iyl", "avg", "sen", "okt", "noy", "dek"];
+const pad = (n) => String(n).padStart(2, "0");
+const money = new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 0 });
 
-export const formatMoney = (value) => `${money.format(Number(value) || 0)} so'm`;
-export const formatDate = (value) => (value ? date.format(new Date(value)) : "—");
-export const formatDateTime = (value) => (value ? dateTime.format(new Date(value)) : "—");
-export const coverSrc = (book) => book?.coverUrl ?? null;
+export const formatMoney = (value) => `${money.format(Number(value) || 0).replace(/ /g, " ")} so'm`;
+
+export const formatDate = (value) => {
+  if (!value) return "—";
+  const d = new Date(value);
+  return `${d.getDate()}-${MONTHS[d.getMonth()]}, ${d.getFullYear()}`;
+};
+
+export const formatDateTime = (value) => {
+  if (!value) return "—";
+  const d = new Date(value);
+  return `${d.getDate()}-${MONTHS[d.getMonth()]} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+};
 
 export const ORDER_LABELS = {
   pending: { text: "Kutilmoqda", cls: "bg-amber-100 text-amber-800 ring-amber-200" },

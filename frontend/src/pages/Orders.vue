@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, nextTick } from "vue";
 import { ordersApi } from "../api/index.js";
 import { useToastStore } from "../stores/toast.js";
 import { formatMoney, formatDateTime } from "../utils/format.js";
@@ -14,12 +14,14 @@ const root = ref(null);
 const orders = ref([]);
 const loading = ref(true);
 const filter = ref("all");
-useReveal(root);
+const reveal = useReveal(root);
 
 const load = async () => {
   loading.value = true;
   try {
     orders.value = (await ordersApi.my()).items;
+    await nextTick();
+    reveal.refresh();
   } finally {
     loading.value = false;
   }

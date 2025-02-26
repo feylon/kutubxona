@@ -14,7 +14,7 @@ onMounted(async () => {
   stats.value = await statsApi.admin();
   await nextTick();
   gsap.from(root.value.querySelectorAll(".stat"), { y: 20, opacity: 0, stagger: 0.07, duration: 0.6, ease: "power3.out" });
-  root.value.querySelectorAll("[data-count]").forEach((el) => countUp(el, Number(el.dataset.count), { duration: 1.2 }));
+  root.value.querySelectorAll("[data-count]").forEach((el, i) => countUp(el, Number(el.dataset.count), { duration: 1.2, delay: i * 0.1 }));
 });
 </script>
 

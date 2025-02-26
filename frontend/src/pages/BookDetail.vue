@@ -39,8 +39,9 @@ const load = async () => {
       gsap.from(coverEl.value, { x: -30, opacity: 0, rotateY: -20, duration: 0.9, ease: "power3.out" });
       gsap.from(".detail-fade", { y: 16, opacity: 0, stagger: 0.07, duration: 0.6, ease: "power2.out" });
     });
-  } catch (e) {
-    notFound.value = e.status === 404;
+  } catch {
+    book.value = null;
+    notFound.value = true;
   } finally {
     loading.value = false;
   }

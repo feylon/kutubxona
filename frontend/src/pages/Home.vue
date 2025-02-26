@@ -9,7 +9,7 @@ import BookCover from "../components/BookCover.vue";
 const auth = useAuthStore();
 const root = ref(null);
 const hero = ref(null);
-const statEls = ref([]);
+const statEls = ref({});
 
 const top = ref([]);
 const latest = ref([]);
@@ -17,7 +17,7 @@ const categories = ref([]);
 const stats = ref({ books: 0, categories: 0, readers: 0, delivered: 0 });
 const loaded = ref(false);
 
-useReveal(root);
+const reveal = useReveal(root);
 
 const categoryIcons = ["📖", "✒️", "🏛️", "🔬", "🧸", "💻", "🎨", "🌍"];
 
@@ -34,13 +34,14 @@ onMounted(async () => {
   loaded.value = true;
 
   await nextTick();
+  reveal.refresh();
   gsap.from(hero.value.querySelectorAll(".hero-book"), {
     y: 80, opacity: 0, rotate: () => gsap.utils.random(-10, 10), stagger: 0.1, duration: 1.1, ease: "power4.out",
   });
   hero.value.querySelectorAll(".hero-book").forEach((el, i) => {
     gsap.to(el, { y: "-=12", duration: 2.2 + i * 0.3, yoyo: true, repeat: -1, ease: "sine.inOut", delay: i * 0.2 });
   });
-  statEls.value.forEach((el) => countUp(el, Number(el.dataset.value)));
+  Object.entries(statEls.value).forEach(([key, el], i) => el && countUp(el, Number(stats.value[key]), { delay: i * 0.15 }));
 });
 
 const heroWords = "Kitoblar olamiga xush kelibsiz".split(" ");
@@ -73,7 +74,7 @@ const heroWords = "Kitoblar olamiga xush kelibsiz".split(" ");
           </div>
           <div class="hero-fade mt-10 flex flex-wrap gap-8">
             <div v-for="(s, key) in { books: 'Kitob', readers: 'O\'quvchi', delivered: 'Yetkazilgan' }" :key="key">
-              <p class="font-display text-3xl font-semibold"><span :ref="(el) => el && statEls.push(el)" :data-value="stats[key]">0</span>+</p>
+              <p class="font-display text-3xl font-semibold"><span :ref="(el) => (statEls[key] = el)">0</span>+</p>
               <p class="text-xs font-semibold uppercase tracking-wider text-muted">{{ s }}</p>
             </div>
           </div>

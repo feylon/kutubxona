@@ -41,13 +41,15 @@
 @layer components {
   .container-x { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
 
-  .btn { @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 select-none disabled:opacity-50 disabled:pointer-events-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent; }
-  .btn-primary { @apply btn bg-ink text-paper hover:bg-ink-2 hover:-translate-y-px active:translate-y-0; }
-  .btn-accent { @apply btn bg-accent text-white hover:bg-accent-2 hover:-translate-y-px active:translate-y-0 shadow-[0_8px_20px_-8px_rgb(194_65_12/0.6)]; }
-  .btn-ghost { @apply btn bg-transparent text-ink hover:bg-ink/5; }
-  .btn-outline { @apply btn border border-line bg-white/60 text-ink hover:border-ink hover:bg-white; }
+  .btn, .btn-primary, .btn-accent, .btn-ghost, .btn-outline, .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 select-none disabled:opacity-50 disabled:pointer-events-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent;
+  }
+  .btn-primary { @apply bg-ink text-paper hover:bg-ink-2 hover:-translate-y-px active:translate-y-0; }
+  .btn-accent { @apply bg-accent text-white hover:bg-accent-2 hover:-translate-y-px active:translate-y-0 shadow-[0_8px_20px_-8px_rgb(194_65_12/0.6)]; }
+  .btn-ghost { @apply bg-transparent text-ink hover:bg-ink/5; }
+  .btn-outline { @apply border border-line bg-white/60 text-ink hover:border-ink hover:bg-white; }
+  .btn-danger { @apply bg-red-600 text-white hover:bg-red-700; }
   .btn-sm { @apply px-3.5 py-1.5 text-xs; }
-  .btn-danger { @apply btn bg-red-600 text-white hover:bg-red-700; }
 
   .input { @apply w-full rounded-xl border border-line bg-white/80 px-4 py-2.5 text-sm text-ink placeholder:text-muted/70 transition focus:border-ink focus:outline-none focus:ring-4 focus:ring-ink/5; }
   .label { @apply mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted; }
