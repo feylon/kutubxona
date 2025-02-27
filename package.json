@@ -1,0 +1,18 @@
+{
+  "name": "kutubxona",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Kutubxona — onlayn kutubxona tizimi (Vue 3 + Express 5 + PostgreSQL)",
+  "scripts": {
+    "install:all": "npm install && npm --prefix backend install && npm --prefix frontend install",
+    "db:up": "docker compose up -d",
+    "db:seed": "npm --prefix backend run db:seed",
+    "dev": "concurrently -n backend,frontend -c blue,green \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
+    "build": "npm --prefix frontend run build",
+    "start": "npm --prefix backend start",
+    "test": "npm --prefix backend test"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
