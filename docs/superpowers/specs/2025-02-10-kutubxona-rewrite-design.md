@@ -29,3 +29,7 @@ Ma'lumotlar bazasi Docker Compose orqali ko'tariladi.
 - `GET /orders/my`, `POST /orders`, `DELETE /orders/:id`; `GET /orders`, `PATCH /orders/:id/status` (admin)
 - `GET /users`, `PATCH /users/:id/status`, `PATCH /users/:id/role` (admin/superadmin)
 - `GET /stats`
+
+## Yakun (2025-02-28)
+Barcha bo'limlar amalga oshirildi: 23 ta backend endpoint, 13 ta API test, 14 ta sahifa (5 tasi admin).
+Ishga tushirish va demo hisoblar `README.md` da. Skrinshotlar asosida barcha sahifalar brauzerda tekshirildi.
